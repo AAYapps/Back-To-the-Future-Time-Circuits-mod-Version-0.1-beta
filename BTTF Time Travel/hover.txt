@@ -1,0 +1,13 @@
+                if (!(Deloreon == null))
+                {
+                    if (flyingison)
+                    {
+                        Game.Player.Character.CurrentVehicle.Position = new Vector3(flyingX, flyingY, flyingZ + flyheight);
+                    }
+                    else
+                    {
+                        flyingX = Game.Player.Character.CurrentVehicle.Position.X;
+                        flyingY = Game.Player.Character.CurrentVehicle.Position.X;
+                        flyingZ = Game.Player.Character.CurrentVehicle.Position.X;
+                    }
+                }

@@ -1,0 +1,597 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{83E0E764-117E-44C7-B348-B30BDC72CD08}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BTTF_Time_Travel</RootNamespace>
+    <AssemblyName>BTTF Time Travel</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptHookVDotNet">
+      <HintPath>..\ScriptHookVDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constanttimerclass.cs" />
+    <Compile Include="Deloreonfunctions.cs" />
+    <Compile Include="Deloreonfunctions2.cs" />
+    <Compile Include="DeloreonStealer.cs" />
+    <Compile Include="ExperimentScene.cs" />
+    <Compile Include="outsideDeloreon.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Screen_select.cs" />
+    <Compile Include="startingscene.cs" />
+    <Compile Include="TimeCircuits.cs" />
+    <Compile Include="Time_Display.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Time_Display.Designer.cs">
+      <DependentUpon>Time_Display.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Variableclass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Time_Display.resx">
+      <DependentUpon>Time_Display.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mrfreload.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Car start up.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\0.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gglow.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HoverBoost.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HoverOff.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HoverOn.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HoverUp.WAV" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plate.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preload.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ready.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ready2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rglow.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trend.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yglow.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time_travel_BTTF1_CUTSCENE.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time_travel_BTTF2_cutscene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time_travel_BTTF2_flying.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time_travel_BTTF2_lightning_cutscene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\train_trail_1.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\train_trail_2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vent.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\beep.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\boost.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cold.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disappointed_number.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\door_cold.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\door_open.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\empty.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\engine_off.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\engine_on.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error_BTTF3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hover_off.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hover_on.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_enter.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_enter_bttf3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_enter_error.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_off.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_off_bttf3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_on.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_on_bttf2_error.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_on_bttf3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_on_fuel.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Lightning_bttf2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Open_mr.Fusion.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Plutonium.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Plutonium_fuel.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RC_control.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RC_control_handbrake.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\REENTRY_BTTF1.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\REENTRY_BTTF1_in_car.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\REENTRY_BTTF2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\REENTRY_BTTF3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\restart_engine.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ROTATE_NOMER.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sparks.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sparks_bttf3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sparks_fuel.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_RC_control.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop_RC_control.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time_travel.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChaseScene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DeloreonEnterScene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Intro.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TestIntroScene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TestwithDogScene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\YouMadeItScene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LibeadsenterScene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReentryScene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Testsuccess.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 0.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 7.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 8.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 9.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 10.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 11.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 12.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 13.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 14.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 15.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 16.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 17.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 18.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 19.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 20.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber 21.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber am.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber colon off.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber colon on.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\amber pm.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blankdest.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\broken.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doc.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error1885 old.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error1885.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 0.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 7.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 8.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 9.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 10.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 11.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 12.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 13.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 14.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 15.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 16.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 17.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 18.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 19.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 20.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green 21.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green am.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green colon off.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green colon on.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green pm.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 0.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 7.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 8.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 9.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 10.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 11.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 12.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 13.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 14.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 15.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 16.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 17.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 18.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 19.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 20.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red 21.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red am.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red colon off.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red colon on.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red pm.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>COPY "$(TargetDir)\BTTF Time Travel.dll" "C:\Program Files\Rockstar Games\Grand Theft Auto V\scripts"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
