@@ -95,9 +95,6 @@
     <None Include="Resources\mrfreload.wav" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Car start up.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\0.wav" />
   </ItemGroup>
   <ItemGroup>
@@ -585,6 +582,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\red pm.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Car start up damaged.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\starter begining.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\starter starts.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\starter.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Car start up.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

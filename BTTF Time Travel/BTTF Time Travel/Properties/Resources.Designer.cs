@@ -452,6 +452,24 @@ namespace BTTF_Time_Travel.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Car_start_up {
+            get {
+                return ResourceManager.GetStream("Car_start_up", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Car_start_up_damaged {
+            get {
+                return ResourceManager.GetStream("Car_start_up_damaged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream ChaseScene {
             get {
                 return ResourceManager.GetStream("ChaseScene", resourceCulture);
@@ -1383,6 +1401,33 @@ namespace BTTF_Time_Travel.Properties {
         internal static System.IO.UnmanagedMemoryStream start_RC_control {
             get {
                 return ResourceManager.GetStream("start_RC_control", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream starter {
+            get {
+                return ResourceManager.GetStream("starter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream starter_begining {
+            get {
+                return ResourceManager.GetStream("starter_begining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream starter_starts {
+            get {
+                return ResourceManager.GetStream("starter_starts", resourceCulture);
             }
         }
         
