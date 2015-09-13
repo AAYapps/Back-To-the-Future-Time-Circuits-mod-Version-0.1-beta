@@ -160,13 +160,13 @@ namespace BTTF_Time_Travel
                             else
                             {
                                 System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Car_start_up_damaged);
-                                player.PlayLooping();
+                                player.Play();
                             }
                         }
                         else
                         {
                             System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Car_start_up_damaged);
-                            player.PlayLooping();
+                            player.Play();
                         }
                         audioplayed = true;
                     }
@@ -202,13 +202,13 @@ namespace BTTF_Time_Travel
                             else
                             {
                                 System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.starter_begining);
-                                player.PlayLooping();
+                                player.Play();
                             }
                         }
                         else
                         {
                             System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.starter_begining);
-                            player.PlayLooping();
+                            player.Play();
                         }
                         audioplayed = true;
                     }
@@ -236,13 +236,13 @@ namespace BTTF_Time_Travel
                             else
                             {
                                 System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Car_start_up);
-                                player.PlayLooping();
+                                player.Play();
                             }
                         }
                         else
                         {
                             System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Car_start_up);
-                            player.PlayLooping();
+                            player.Play();
                         }
                         audioplayed = true;
                     }
