@@ -27,6 +27,8 @@ namespace BTTF_Time_Travel
         static string tampm = "";
         #endregion
 
+        public static string timeinputstring = "";
+
         #region Time Curcuits sounds
         static SoundPlayer num0 = new SoundPlayer(Properties.Resources._0);
         static SoundPlayer num1 = new SoundPlayer(Properties.Resources._1);
@@ -48,85 +50,106 @@ namespace BTTF_Time_Travel
             {
                 case Keys.NumPad0:
                     num0.Play();
+                    timeinputstring += 0 + " ";
                     timeinput(0, datecount);
                     break;
                 case Keys.D0:
                     num0.Play();
+                    timeinputstring += 0 + " ";
                     timeinput(0, datecount);
                     break;
                 case Keys.NumPad1:
                     num1.Play();
+                    timeinputstring += 1 + " ";
                     timeinput(1, datecount);
                     break;
                 case Keys.D1:
                     num1.Play();
+                    timeinputstring += 1 + " ";
                     timeinput(1, datecount);
                     break;
                 case Keys.NumPad2:
                     num2.Play();
+                    timeinputstring += 2 + " ";
                     timeinput(2, datecount);
                     break;
                 case Keys.D2:
                     num2.Play();
+                    timeinputstring += 2 + " ";
                     timeinput(2, datecount);
                     break;
                 case Keys.NumPad3:
                     num3.Play();
+                    timeinputstring += 3 + " ";
                     timeinput(3, datecount);
                     break;
                 case Keys.D3:
                     num3.Play();
+                    timeinputstring += 3 + " ";
                     timeinput(3, datecount);
                     break;
                 case Keys.NumPad4:
                     num4.Play();
+                    timeinputstring += 4 + " ";
                     timeinput(4, datecount);
                     break;
                 case Keys.D4:
                     num4.Play();
+                    timeinputstring += 4 + " ";
                     timeinput(4, datecount);
                     break;
                 case Keys.NumPad5:
                     num5.Play();
+                    timeinputstring += 5 + " ";
                     timeinput(5, datecount);
                     break;
                 case Keys.D5:
                     num5.Play();
+                    timeinputstring += 5 + " ";
                     timeinput(5, datecount);
                     break;
                 case Keys.NumPad6:
                     num6.Play();
+                    timeinputstring += 6 + " ";
                     timeinput(6, datecount);
                     break;
                 case Keys.D6:
                     num6.Play();
+                    timeinputstring += 6 + " ";
                     timeinput(6, datecount);
                     break;
                 case Keys.NumPad7:
                     num7.Play();
+                    timeinputstring += 7 + " ";
                     timeinput(7, datecount);
                     break;
                 case Keys.D7:
                     num7.Play();
+                    timeinputstring += 7 + " ";
                     timeinput(7, datecount);
                     break;
                 case Keys.NumPad8:
                     num8.Play();
+                    timeinputstring += 8 + " ";
                     timeinput(8, datecount);
                     break;
                 case Keys.D8:
                     num8.Play();
+                    timeinputstring += 8 + " ";
                     timeinput(8, datecount);
                     break;
                 case Keys.NumPad9:
                     num9.Play();
+                    timeinputstring += 9 + " ";
                     timeinput(9, datecount);
                     break;
                 case Keys.D9:
                     num9.Play();
+                    timeinputstring += 9 + " ";
                     timeinput(9, datecount);
                     break;
                 case Keys.Enter:
+                    timeinputstring = "";
                     if (datecount > 11)
                     {
                         inputenter.Play();
@@ -146,7 +169,7 @@ namespace BTTF_Time_Travel
                         tm2 = 0;
                         tampm = "am";
                     }
-                    else if (datecount < 8)
+                    else if (datecount < 9)
                     {
                         inputenter.Play();
                         Settime(tday1, tday2, tmonth1, tmonth2, ty1, ty2, ty3, ty4, fh1, fh2, fm1, fm2, fampm);
@@ -538,10 +561,32 @@ namespace BTTF_Time_Travel
             int presmin = World.CurrentDayTime.Minutes;
             if (presmin < 10)
             {
+                presm1 = 0;
+                presm2 = presmin;
                 minutestring = "0" + presmin;
             }
             else
             {
+                if (presmin < 20)
+                {
+                    presm1 = 1;
+                    presm2 = presmin - 10;
+                }
+                else if (presmin < 30)
+                {
+                    presm1 = 1;
+                    presm2 = presmin - 10;
+                }
+                else if (presmin < 40)
+                {
+                    presm1 = 1;
+                    presm2 = presmin - 10;
+                }
+                else if (presmin < 50)
+                {
+                    presm1 = 1;
+                    presm2 = presmin - 10;
+                }
                 minutestring = presmin.ToString();
             }
 
@@ -551,10 +596,14 @@ namespace BTTF_Time_Travel
             string hours;
             if (hour < 10 && hour > 0)
             {
+                presh1 = 0;
+                presh2 = hour;
                 hours = "0" + hour;
             }
             else if (hour == 0)
             {
+                presh1 = 1;
+                presh2 = 2;
                 hours = "12";
             }
             else
@@ -563,90 +612,31 @@ namespace BTTF_Time_Travel
                 {
                     if (hour < 22)
                     {
+                        presh1 = 0;
+                        presh2 = (hour - 12);
                         hours = "0" + (hour - 12);
                         presampmindcator = ".";
                     }
                     else
                     {
+                        presh1 = 1;
+                        presh2 = hour - 10;
                         hours = (hour - 12).ToString();
                         presampmindcator = ".";
                     }
                 }
                 else
                 {
+                    presh1 = 1;
+                    presh2 = hour - 10;
                     hours = hour.ToString();
                 }
             }
-
-
             string presyear;
-            try
-            {
-                presyear = World.CurrentDate.Year.ToString();
-            }
-            catch
-            {
-                presyear = presy1.ToString() + presy2 + presy3 + presy4;
-            }
-
+            presyear = presy1.ToString() + presy2 + presy3 + presy4;
 
             string presmonthname;
 
-            try
-            {
-                int presnouth = World.CurrentDate.Month - 1;
-                presmonthname = "";
-                if (presnouth == 1)
-                {
-                    presmonthname = "JAN";
-                }
-                else if (presnouth == 2)
-                {
-                    presmonthname = "FEB";
-                }
-                else if (presnouth == 3)
-                {
-                    presmonthname = "MAR";
-                }
-                else if (presnouth == 4)
-                {
-                    presmonthname = "APR";
-                }
-                else if (presnouth == 5)
-                {
-                    presmonthname = "MAY";
-                }
-                else if (presnouth == 6)
-                {
-                    presmonthname = "JUN";
-                }
-                else if (presnouth == 7)
-                {
-                    presmonthname = "JUL";
-                }
-                else if (presnouth == 8)
-                {
-                    presmonthname = "AUG";
-                }
-                else if (presnouth == 9)
-                {
-                    presmonthname = "SEP";
-                }
-                else if (presnouth == 10)
-                {
-                    presmonthname = "OCT";
-                }
-                else if (presnouth == 11)
-                {
-                    presmonthname = "NOV";
-                }
-                else if (presnouth == 12)
-                {
-                    presmonthname = "DEC";
-                }
-            }
-            catch
-            {
                 presmonthname = "";
                 if ((presmonth1 * 10) + presmonth2 == 1)
                 {
@@ -696,7 +686,6 @@ namespace BTTF_Time_Travel
                 {
                     presmonthname = "DEC";
                 }
-            }
 
             return (presmonthname.ToString().PadLeft(5) + " " + (presday1.ToString()
                 + presday2.ToString()).PadRight(3) + " " + presyear.PadLeft(5) + presampmindcator + (hours

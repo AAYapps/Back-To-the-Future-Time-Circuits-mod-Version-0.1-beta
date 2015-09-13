@@ -53,9 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constanttimerclass.cs" />
+    <Compile Include="Delorean_stealer.cs" />
     <Compile Include="Deloreonfunctions.cs" />
     <Compile Include="Deloreonfunctions2.cs" />
     <Compile Include="DeloreonStealer.cs" />
+    <Compile Include="engine.cs" />
     <Compile Include="ExperimentScene.cs" />
     <Compile Include="outsideDeloreon.cs" />
     <Compile Include="Program.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Time_Display.Designer.cs">
       <DependentUpon>Time_Display.cs</DependentUpon>
     </Compile>
+    <Compile Include="Time_reentry.cs" />
     <Compile Include="Variableclass.cs" />
   </ItemGroup>
   <ItemGroup>

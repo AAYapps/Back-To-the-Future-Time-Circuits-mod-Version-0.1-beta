@@ -58,9 +58,6 @@ namespace BTTF_Time_Travel
         #endregion
 
         #region Doc's truck
-        static public bool truckspawn = false;
-        static public Vehicle Docstruck;
-        static public bool isintruck = false;
         static public Blip loction;
         #endregion
 
@@ -70,16 +67,18 @@ namespace BTTF_Time_Travel
         #endregion
 
         #region Doc's Exparament
-        static public bool DocsExparamentstart = false; 
+        static public bool DocsExparamentstart = false;
         #endregion
 
         #region Deloreon
+        public static bool invicible = true;
+        public static bool enginerunning = false;
         static public bool RCmodeenabled = true;
         static public bool MrFusionfilltask = false;
         static public bool RCmodeactive = false;
         static public Ped RCped;
         static public Ped playerped;
-        static public int flyheight = 0;
+        static public double flyheight = 0;
         static public bool flyingison = false;
         static public bool deloreonspoawned = false;
         static public bool ifegnineturnedon = false;
@@ -96,6 +95,7 @@ namespace BTTF_Time_Travel
         static public UIText Timedisplayf;
         static public UIText Timedisplaypres;
         static public UIText Timedisplaypast;
+        static public UIText Timedisplayinput; 
 
         static public bool carjustdied = false;
         static public bool retreive = false;

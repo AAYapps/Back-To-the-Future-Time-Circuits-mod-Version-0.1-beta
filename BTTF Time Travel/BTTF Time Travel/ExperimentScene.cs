@@ -15,11 +15,6 @@ namespace BTTF_Time_Travel
 {
     class ExperimentScene:Variableclass
     {
-        static public void Start()
-        {
-            isintruck = true;
-        }
-
         #region Variables
         static bool tasksent = false;
         static bool runonce = false;
@@ -36,32 +31,30 @@ namespace BTTF_Time_Travel
         static SoundPlayer Experimentsuccess = new SoundPlayer(Properties.Resources.Testsuccess);
         static SoundPlayer Libeads = new SoundPlayer(Properties.Resources.LibeadsenterScene);
         static Blip posblip;
+        public static bool possiondisplay = false;
         #endregion
 
         static public void tick()
         {
-            UIText Instruct = new UIText("delay: " + Constanttimerclass.getdelay() , new Point(400, 300), (float)0.9);
-            Instruct.Draw();
-
-            if (isintruck)
+            try
             {
-                if (Deloreon.IsInRangeOf(Docstruck.GetOffsetInWorldCoords(new Vector3(0, -2, 2)), (float)1.4))
+                if (possiondisplay)
                 {
-                    Docstruck.CloseDoor(VehicleDoor.Trunk, true);
-                    isintruck = false;
-                    DocsExparamentstart = true;
-                    Constanttimerclass.Reset();
-                }
-                else
-                {
-                    Deloreon.Speed = (float)1.6;
+                    UIText Instruct = new UIText("delay: " + Constanttimerclass.getdelay() + "X: " + Deloreon.Position.X.ToString() + " Y: " + Deloreon.Position.Y.ToString() + " Z: " + Deloreon.Position.Z.ToString() , new Point(400, 400), (float)0.9);
+                    Instruct.Draw();
                 }
             }
-            else if (DocsExparamentstart)
+            catch
+            {
+
+            }
+
+
+            if (DocsExparamentstart)
             {
                 if (!tasksent)
                 {
-                    if (Game.Player.Character.IsInRangeOf(Deloreon.GetOffsetInWorldCoords(new Vector3(0, 0, 0)), (float)20.8))
+                    if (Game.Player.Character.IsInRangeOf(Deloreon.GetOffsetInWorldCoords(new Vector3(0, 0, 0)), (float)30.8))
                     {
                         if (!runonce)
                         {
@@ -86,7 +79,7 @@ namespace BTTF_Time_Travel
 
                 if (Constanttimerclass.getdelay() == 18)
                 {
-                    Docstruck.OpenDoor(VehicleDoor.Trunk, false, false);
+
                 }
                 else if (Constanttimerclass.getdelay() >= 45)
                 {
@@ -192,7 +185,7 @@ namespace BTTF_Time_Travel
                     {
                         if (!runonce)
                         {
-                            posblip = World.CreateBlip(Docstruck.GetOffsetInWorldCoords(new Vector3(0, -250, 0)), 5);
+                            posblip = World.CreateBlip(Deloreon.GetOffsetInWorldCoords(new Vector3(-250, 0, 0)), 30);
                             posblip.Color = BlipColor.Yellow;
                             runonce = true;
                         }
@@ -200,10 +193,10 @@ namespace BTTF_Time_Travel
                     else
                     {
                         UIText Instruct2 = new UIText("Switch to Remote Control Mode \"T\"", new Point(400, 300), (float)0.9);
-                        Instruct.Draw();
+                        Instruct2.Draw();
                     }
                 }
-                else if (Game.Player.Character.IsInRangeOf(Docstruck.GetOffsetInWorldCoords(new Vector3(0, -250, 0)), 15))
+                else if (Game.Player.Character.IsInRangeOf(Deloreon.GetOffsetInWorldCoords(new Vector3(-250, 0, 0)), 30))
                 {
                     if (runonce)
                     {
@@ -261,7 +254,7 @@ namespace BTTF_Time_Travel
                 else if (Constanttimerclass.getdelay() == 3)
                 {
                     Deloreon.Position = Doc.GetOffsetInWorldCoords(new Vector3(3,-18,0));
-                    Deloreon.Rotation = Docstruck.Rotation;
+                    Deloreon.Rotation = Doc.Rotation;
                     Deloreon.Speed = 30;
                     Deloreon.IsVisible = true;
                 }
@@ -271,18 +264,18 @@ namespace BTTF_Time_Travel
                     {
                         Deloreon.Speed -= (float)0.1;
                     }
-                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.Smoke1, 10, 0);
+                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.SmokeG, 10, 0);
                 }
                 else if (Constanttimerclass.getdelay() == 26)
                 {
-                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.Smoke1, 14, 0);
+                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.SmokeG, 14, 0);
 
-                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), ExplosionType.Smoke1, 14, 0);
+                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), ExplosionType.SmokeG, 14, 0);
 
                 }
                 else if (Constanttimerclass.getdelay() < 40)
                 {
-                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.Smoke1, 10, 0);
+                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.SmokeG, 10, 0);
                 }
                 else if (Constanttimerclass.getdelay() == 40)
                 {

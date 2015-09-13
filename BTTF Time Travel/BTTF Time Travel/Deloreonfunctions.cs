@@ -15,6 +15,8 @@ namespace BTTF_Time_Travel
     {
         public static void CreateDeloreon()
         {
+            Deloreon = null;
+
             Plut.Play();
 
             Vector3 position = Game.Player.Character.GetOffsetInWorldCoords(new Vector3(0, 5, 0));
@@ -22,47 +24,33 @@ namespace BTTF_Time_Travel
             // At 90 degrees to the players heading
             float heading = Game.Player.Character.Heading - 90;
 
-            if (!(Deloreon == null))
-            {
-                Deloreon.Delete();
-            }
-            Deloreon = World.CreateVehicle(VehicleHash.Voltic, position, heading);
+            Deloreon = World.CreateVehicle(VehicleHash.Dune2, position, heading);
 
             Variableclass.deloreonspoawned = true;
+
+            Variableclass.Deloreon.IsInvincible = true;
+            Variableclass.Deloreon.CanBeVisiblyDamaged = false;
 
             Deloreon.DirtLevel = 0;
             Deloreon.CustomPrimaryColor = Color.Silver;
             Deloreon.CustomSecondaryColor = Color.Black;
             Deloreon.NumberPlate = "OutATime";
-            Deloreon.IsInvincible = true;
-            Deloreon.CanBeVisiblyDamaged = false;
             Deloreon.PlaceOnGround();
         }
 
-        public static void CreateDeloreonintruck(Vector3 truckposition)
+        public static void RemoveDelorean()
         {
-            
+            Deloreon.Delete();
+        }
 
-            // At 90 degrees to the players heading
-            float heading = Game.Player.Character.Heading - 90;
-
-            if (!(Docstruck == null))
-            {
-                Docstruck.Delete();
-            }
-
-            Docstruck = World.CreateVehicle(VehicleHash.Benson, truckposition, heading);
-            Docstruck.Rotation = new Vector3(0, 0, 102);
-            Docstruck.OpenDoor(VehicleDoor.Trunk, false, true);
-
-            Vector3 position = Docstruck.GetOffsetInWorldCoords(new Vector3(0, -10, 0));
-
+        public static void CreateDeloreoninbuilding(Vector3 position)
+        {
             if (!(Deloreon == null))
             {
                 Deloreon.Delete();
             }
-            Deloreon = World.CreateVehicle(VehicleHash.Voltic, position, heading);
-            Deloreon.Rotation = new Vector3(0, 0, 102);
+            Deloreon = World.CreateVehicle(VehicleHash.Voltic, position);
+            Deloreon.Rotation = new Vector3(0, 0, 102 - 90);
             Deloreon.IsInvincible = true;
             Deloreon.CanBeVisiblyDamaged = false;
             if (!(Doc == null))
@@ -72,7 +60,11 @@ namespace BTTF_Time_Travel
             Doc = Deloreon.CreatePedOnSeat(VehicleSeat.Driver, PedHash.Scientist01SMM);
             Doc.RelationshipGroup = (int)Relationship.Companion;
 
-            Einstein = World.CreatePed(PedHash.Chop, Docstruck.GetOffsetInWorldCoords(new Vector3(-20, 0, 0)));
+            if (!(Einstein == null))
+            {
+                Einstein.Delete();
+            }
+            Einstein = World.CreatePed(PedHash.Chop, Deloreon.GetOffsetInWorldCoords(new Vector3(-20, 0, 0)));
             Einstein.RelationshipGroup = (int)Relationship.Companion;
             Einstein.IsInvincible = true;
 
@@ -82,6 +74,8 @@ namespace BTTF_Time_Travel
             Deloreon.CustomPrimaryColor = Color.Silver;
             Deloreon.CustomSecondaryColor = Color.Black;
             Deloreon.NumberPlate = "OutATime";
+            DocsExparamentstart = true;
+            Constanttimerclass.Reset();
         }
 
         public static void RetreiveDeloreon()
@@ -218,6 +212,7 @@ namespace BTTF_Time_Travel
                             if (flyingison)
                             {
                                 flyingison = false;
+                                flyingturnedon = false;
                                 hoveroff.Play();
                                 flyheight = 0;
                             }
@@ -304,25 +299,62 @@ namespace BTTF_Time_Travel
         }
 
         static int delay = 0;
-        static bool entertime = false;
-        static bool runonce = false;
-        static bool runonce2 = false;
+        static bool flyingturnedon = false;
         static void Deloreonfunctioning()
         {
             if (flyingison)
             {
-                if (flyheight > 0)
+                if (flycount < 30)
                 {
-                    if (flycount >= 30)
-                    {
-                        flyheight--;
-                        Deloreon.ApplyForce(Deloreon.GetOffsetInWorldCoords(new Vector3(0, 0, flyheight)));
-                    }
-                    else
+                    if (!flyingturnedon)
                     {
                         flycount++;
-                        flyheight = 2;
-                        Deloreon.ApplyForce(Deloreon.GetOffsetInWorldCoords(new Vector3(0, 0, flyheight)));
+                        if (flyheight < 0.6)
+                        {
+                            flyheight = 0.2;
+                        }
+                        Deloreon.ApplyForce(new Vector3(0, 0, (float)flyheight));
+                        flyingturnedon = true;
+                    }
+                }
+
+                if (flyingturnedon)
+                {
+                    if (Deloreon.HeightAboveGround < flyheight)
+                    {
+                        Deloreon.ApplyForce(new Vector3(0, 0, (float)0.4));
+                    }
+                    else if (Deloreon.HeightAboveGround > flyheight)
+                    {
+                        //Deloreon.ApplyForce(new Vector3(0, 0, (float)-0.4));
+                    }
+                }
+
+                if (Deloreon.Rotation.Z != 0)
+                {
+                    Deloreon.Velocity = new Vector3(0, 0, 0);
+                }
+
+                if (flyheight > 0)
+                {
+                    if (flyingturnedon)
+                    {
+                        flyheight -= 0.1;
+                        if (!(flyheight > 0.6))
+                        {
+                            Deloreon.ApplyForce(new Vector3(0, 0, (float)flyheight));
+                        }
+                    }
+                }
+                else if (flyheight < 0)
+                {
+                    if (flyingturnedon)
+                    {
+                        flyheight += 0.1;
+                        if (!(flyheight < 0.6))
+                        {
+                            Deloreon.ApplyForce(new Vector3(0, 0, (float)-flyheight));
+                        }
                     }
                 }
             }
@@ -344,7 +376,9 @@ namespace BTTF_Time_Travel
                 {
                     if (!RCmode)
                     {
-                        engineon.Play();
+                        //engineon.Play();
+                        engine.startsounddelay = true;
+                        engine.audioplayed = false;
                     }
                     ifegnineturnedon = true;
                     engineison = true;
@@ -376,7 +410,7 @@ namespace BTTF_Time_Travel
                     Function.Call(Hash.SET_VEHICLE_DOOR_OPEN, Game.Player.Character.CurrentVehicle, 5, false, false);
                     Constanttimerclass.Start();
                 }
-                else if (Constanttimerclass.getdelay() == 4)
+                else if (Constanttimerclass.getdelay() == 5)
                 {
                     Function.Call(Hash.SET_VEHICLE_DOOR_SHUT, Game.Player.Character.CurrentVehicle, 5, false);
                     mrfopened = false;
@@ -389,18 +423,23 @@ namespace BTTF_Time_Travel
                 Timedisplayf = new UIText(TimeCircuits.timedisplayfuture(), new Point(700, 150), 1, Color.Red);
                 Timedisplaypres = new UIText(TimeCircuits.timedisplaypresent(), new Point(700, 190), 1, Color.Green);
                 Timedisplaypast = new UIText(TimeCircuits.timedisplaypast(), new Point(700, 230), 1, Color.Yellow);
+                Timedisplayinput = new UIText(TimeCircuits.timeinputstring, new Point(700, 270), 1, Color.DarkGreen);
                 Timedisplayf.Draw();
                 Timedisplaypres.Draw();
                 Timedisplaypast.Draw();
+                Timedisplayinput.Draw();
 
                 if (Game.Player.Character.CurrentVehicle.Speed * 2.4 > 84 && Game.Player.Character.CurrentVehicle.Speed * 2.4 < 88)
                 {
+                    World.DrawLightWithRange(Variableclass.Deloreon.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Cyan, (float)1.2, 300);
                     if (!past84)
                     {
                         if (refilltimecurcuits)
                         {
                             sparksfeul.PlayLooping();
                             Constanttimerclass.Start();
+                            Variableclass.Deloreon.IsInvincible = true;
+                            Variableclass.Deloreon.CanBeVisiblyDamaged = false;
                         }
                         else
                         {
@@ -411,26 +450,32 @@ namespace BTTF_Time_Travel
                 }
                 else if (Game.Player.Character.CurrentVehicle.Speed * 2.4 >= 88)
                 {
+                    World.DrawLightWithRange(Variableclass.Deloreon.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Cyan, (float)1.2, 300);
                     if (refilltimecurcuits)
                     {
                         if (Constanttimerclass.getdelay() < 5)
                         {
-                            if (Constanttimerclass.getdelay() > 3)
-                            {
-                                World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), (ExplosionType)4, (float)0.0001, 0);
-                                World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), (ExplosionType)4, (float)0.0001, 0);
+                            if (Constanttimerclass.getdelay() > 2)
+                            {  
+                                int eplode = (int)ExplosionType.FlameExplode;
+                                World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, -2)), (ExplosionType)eplode, (float)1, 0);
+                                World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, -2)), (ExplosionType)eplode, (float)1, 0);
                             }
                         }
                         else
                         {
-                            World.AddExplosion(Deloreon.Position, ExplosionType.BigExplosion1, 10, 0);
+                            World.AddExplosion(Deloreon.Position, ExplosionType.Car, 10, 0);
                             Timetravelreenterycutscene.Play();
                             //Timetravelreentery.Play();
                             Deloreon.Speed = 0;
-                            Deloreon.IsVisible = false;
+                            if (!invicible)
+                            {
+                                Deloreon.IsVisible = false;
+                                Game.Player.CanControlCharacter = false;
+                            }
                             Constanttimerclass.Stop();
                             Constanttimerclass.Reset();
-                            entertime = true;
+                            Time_reentry.enterintime();
                             if (Game.Player.WantedLevel > 0)
                             {
                                 Game.Player.WantedLevel = 0;
@@ -442,56 +487,7 @@ namespace BTTF_Time_Travel
                 {
                     if (past84)
                     {
-                        if (!runonce)
-                        {
-                            Constanttimerclass.Start();
-                            runonce = true;
-                        }
-
-                        if (Constanttimerclass.getdelay() < 18)
-                        {
-                            if (Constanttimerclass.getdelay() < 3)
-                            {
-                                if (!entertime)
-                                {
-                                    past84 = false;
-                                    runonce = false;
-                                    sparks.Stop();
-                                    Constanttimerclass.Stop();
-                                    Constanttimerclass.Reset();
-                                }
-                            }
-                            else if (Constanttimerclass.getdelay() == 5)
-                            {
-                                TimeCircuits.timetravelentry();
-                                Function.Call(Hash.SET_CLOCK_DATE, TimeCircuits.getmonth(), TimeCircuits.getday(), TimeCircuits.getyear());
-                                Function.Call(Hash.SET_CLOCK_TIME, TimeCircuits.gethour(), TimeCircuits.getminute(), 0);
-                            }
-                            else if (Constanttimerclass.getdelay() == 6)
-                            {
-                                if(!runonce2)
-                                {
-                                    reenterybttf1incar.Play();
-                                    runonce2 = true;
-                                } 
-                            }
-                            else if (Constanttimerclass.getdelay() == 7)
-                            {
-                                if (refilltimecurcuits)
-                                {
-                                    refilltimecurcuits = false;
-                                    Constanttimerclass.Stop();
-                                    Constanttimerclass.Reset();
-                                    runonce = false;
-                                    runonce2 = false;
-                                    entertime = false;
-                                    past84 = false;
-                                    TimeCircuits.resetrunonce();
-                                    Deloreon.Speed = 40;
-                                    Deloreon.IsVisible = true;
-                                }
-                            }
-                        }
+                        Time_reentry.below48();
                     }
                 }
             }
@@ -518,183 +514,12 @@ namespace BTTF_Time_Travel
                             {
                                 Deloreonfunctioning();
                             }
+                            else
+                            {
+                                Delorean_stealer.start();
+                            }
                         }
                         else
-                        {
-                            Deloreonfunctioning();
-                        }
-                    }
-                }
-            }
-
-            if (!(Deloreonstealer == null))
-            {
-                if (Deloreonstealer.IsGettingIntoAVehicle)
-                {
-                    if (!(Deloreon == null))
-                    {
-                        carjustdied = false;
-                    }
-                }
-                else if (Deloreonstealer.IsInVehicle())
-                {
-                    if (!(Deloreon == null))
-                    {
-                        if (Deloreonstealer.CurrentVehicle == Deloreon)
-                        {
-                            if (!deloreonstealerincar)
-                            {
-                                deloreonstealerincar = true;
-                                if (Deloreonstealer.CurrentVehicle == Deloreon)
-                                {
-                                    deloreonstealergoingincar = true;
-                                    if (!refilltimecurcuits)
-                                    {
-                                        refilltimecurcuits = true;
-                                        Mrfrefill.Play();
-                                        mrfopened = true;
-                                    }
-                                }
-                                Deloreonfunctions2.CreateDeloreon();
-                                Deloreon2.PlaceOnNextStreet();
-                                Deloreonfunctions2.RetreiveDeloreon();
-                            }
-
-                            if (Deloreonstealer.IsDead)
-                            {
-                                Deloreon2 = null;
-                                Deloreonstealer.Detach();
-                                Deloreonstealer = null;
-                                Deloreonstealer.Delete();
-                            }
-
-                            if (toggletimecurcuits)
-                            {
-                                Timedisplayf = new UIText(TimeCircuits.timedisplayfuture(), new Point(700, 150), 1, Color.Red);
-                                Timedisplaypres = new UIText(TimeCircuits.timedisplaypresent(), new Point(700, 190), 1, Color.Green);
-                                Timedisplaypast = new UIText(TimeCircuits.timedisplaypast(), new Point(700, 230), 1, Color.Yellow);
-
-                                Timedisplayf.Draw();
-                                Timedisplaypres.Draw();
-                                Timedisplaypast.Draw();
-                            }
-
-                            if (flyingison)
-                            {
-                                if (flyheight > 0)
-                                {
-                                    flyheight--;
-                                    if (flycount >= 30)
-                                    {
-                                        Deloreon.Position = Deloreon.GetOffsetInWorldCoords(new Vector3(0, 0, flyheight));
-                                    }
-                                    else
-                                    {
-                                        flycount++;
-                                        flyheight += 2;
-                                        Deloreon.Position = Deloreon.GetOffsetInWorldCoords(new Vector3(0, 0, flyheight));
-                                    }
-                                }
-
-                            }
-
-                            if (!engineturningon)
-                            {
-                                if (!engineison)
-                                {
-                                    engineon.Play();
-                                    ifegnineturnedon = true;
-                                    engineison = true;
-                                    engineturningon = true;
-                                    ifwentoutoffcar = false;
-                                    Function.Call(Hash.SET_VEHICLE_ENGINE_ON, Deloreonstealer.CurrentVehicle, true);
-                                }
-                            }
-
-                            if (!Deloreonstealer.CurrentVehicle.IsDriveable)
-                            {
-                                if (!carjustdied)
-                                {
-                                    carjustdied = true;
-                                    trend.Play();
-                                    Deloreon = null;
-                                    Deloreonstealer.CurrentVehicle.Detach();
-                                    Deloreonstealer.Kill();
-                                    engineison = false;
-                                    ifwentoutoffcar = true;
-                                }
-                            }
-
-                            if (mrfopened)
-                            {
-                                if (Constanttimerclass.getdelay() == 0)
-                                {
-                                    Function.Call(Hash.SET_VEHICLE_DOOR_OPEN, Deloreonstealer.CurrentVehicle, 5, false, false);
-                                    Constanttimerclass.Start();
-                                }
-                                else if (Constanttimerclass.getdelay() == 70)
-                                {
-                                    Function.Call(Hash.SET_VEHICLE_DOOR_SHUT, Deloreonstealer.CurrentVehicle, 5, false);
-                                    mrfopened = false;
-                                    Constanttimerclass.Stop();
-                                    Constanttimerclass.Reset();
-                                    if (Deloreonstealer.CurrentVehicle == Deloreon)
-                                    {
-                                        toggletimecurcuits = !toggletimecurcuits;
-                                        if (toggletimecurcuits)
-                                        {
-                                            inputon.Play();
-                                        }
-                                        else
-                                        {
-                                            inputoff.Play();
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (toggletimecurcuits)
-                            {
-                                if (Deloreonstealer.CurrentVehicle.Speed * 2.4 > 84 && Deloreonstealer.CurrentVehicle.Speed * 2.4 < 88)
-                                {
-                                    if (!past84)
-                                    {
-                                        if (refilltimecurcuits)
-                                        {
-                                            sparksfeul.PlayLooping();
-                                        }
-                                        else
-                                        {
-                                            sparks.PlayLooping();
-                                        }
-                                        past84 = true;
-                                    }
-                                }
-                                else if (Deloreonstealer.CurrentVehicle.Speed * 2.4 >= 88)
-                                {
-                                    if (refilltimecurcuits)
-                                    {
-                                        TimeCircuits.timetravelentry();
-                                        refilltimecurcuits = false;
-                                        Timetravelreenterycutscene.Play();
-                                        //Function.Call(Hash.SET_CLOCK_DATE, TimeCircuits.getmonth(), TimeCircuits.getday(), TimeCircuits.getyear());
-                                        //Function.Call(Hash.SET_CLOCK_TIME, TimeCircuits.gethour(), TimeCircuits.getminute(), 0);
-                                        Deloreonstealer.IsVisible = false;
-                                        Deloreon.IsVisible = false;
-                                        Game.Player.WantedLevel = 5;
-                                    }
-                                }
-                                else
-                                {
-                                    if (past84)
-                                    {
-                                        sparks.Stop();
-                                        past84 = false;
-                                    }
-                                }
-                            }
-                        }
-                        else if (Game.Player.Character.IsInVehicle(Deloreon))
                         {
                             Deloreonfunctioning();
                         }

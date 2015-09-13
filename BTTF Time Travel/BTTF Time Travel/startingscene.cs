@@ -165,7 +165,7 @@ namespace BTTF_Time_Travel
                             {
                                 if (loction == null)
                                 {
-                                    loction = World.CreateBlip(new Vector3(1264, 3141, 40));
+                                    loction = World.CreateBlip(new Vector3(1724, 3314, 40));
                                     loction.Color = BlipColor.Green;
                                     makeoneblip = true;
                                 }
@@ -175,11 +175,10 @@ namespace BTTF_Time_Travel
                     }
                     else if (Constanttimerclass.getdelay() == 23)
                     {
-                        if (Game.Player.Character.IsInRangeOf(new Vector3(1264, 3141, 40), 220))
+                        if (Game.Player.Character.IsInRangeOf(new Vector3(1724, 3314, 40), 220))
                         {
                             startscene = false;
-                            Deloreonfunctions.CreateDeloreonintruck(new Vector3(1294, 3141, 40));
-                            ExperimentScene.Start();
+                            Deloreonfunctions.CreateDeloreoninbuilding(new Vector3(1724, 3314, 40));
                         }
                     }
                 }

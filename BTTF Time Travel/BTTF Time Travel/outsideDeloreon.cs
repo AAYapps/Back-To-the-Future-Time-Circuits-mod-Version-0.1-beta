@@ -37,6 +37,9 @@ namespace BTTF_Time_Travel
                         if (!RCmode)
                         {
                             engineoff.Play();
+                            engine.enginestarted = false;
+                            engine.audioplayed = false;
+                            Deloreon.EngineRunning = false;
                         }
                     }
                     ifwentoutoffcar = true;
@@ -46,7 +49,7 @@ namespace BTTF_Time_Travel
 
                 if (MrFusionfilltask)
                 {
-                    if (Game.Player.Character.IsInRangeOf(Deloreon.GetOffsetInWorldCoords(new Vector3(0, (float)-2.85, 0)), (float)0.6))
+                    if (Game.Player.Character.IsInRangeOf(Deloreon.GetOffsetInWorldCoords(new Vector3(0, (float)-2.85, 0)), (float)0.7))
                     {
                         if (!refilltimecurcuits)
                         {
@@ -56,9 +59,11 @@ namespace BTTF_Time_Travel
                                 Game.Player.Character.Task.AimAt(Deloreon.GetOffsetInWorldCoords(new Vector3(0, (float)-2.89, 0)), 10);
                                 Deloreon.OpenDoor(VehicleDoor.Trunk, false, false);
                                 Constanttimerclass.Start();
+                                Game.Player.CanControlCharacter = false;
                             }
-                            else if (Constanttimerclass.getdelay() == 4)
+                            else if (Constanttimerclass.getdelay() == 5)
                             {
+                                Game.Player.CanControlCharacter = true;
                                 Deloreon.CloseDoor(VehicleDoor.Trunk, false);
                                 mrfopened = false;
                                 refilltimecurcuits = true;
