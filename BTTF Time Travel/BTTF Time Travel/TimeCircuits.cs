@@ -12,6 +12,7 @@ namespace BTTF_Time_Travel
     class TimeCircuits
     {
         #region Time Curcuits variables
+        static int timesettings = 1;
         public static int fday1 = 2, fday2 = 9, fmonth1 = 0, fmonth2 = 5
             , fy1 = 2, fy2 = 0, fy3 = 1, fy4 = 5, fh1 = 1
             , fh2 = 0, fm1 = 0, fm2 = 9, presday1 = 1, presday2 = 0
@@ -26,6 +27,25 @@ namespace BTTF_Time_Travel
         static int tday1, tday2, tmonth1, tmonth2, ty1, ty2, ty3, ty4, th1, th2, tm1, tm2;
         static string tampm = "";
         #endregion
+
+        public static void changetimesetting()
+        {
+            if (timesettings > 2)
+            {
+                timesettings = 1;
+                datecount = 0;
+                UI.Notify("Change date and time");
+            }
+            else
+            {
+                timesettings++;
+                if (timesettings == 2)
+                {
+                    datecount = 8;
+                    UI.Notify("Change time only");
+                }
+            }
+        }
 
         public static string timeinputstring = "";
 
@@ -50,126 +70,128 @@ namespace BTTF_Time_Travel
             {
                 case Keys.NumPad0:
                     num0.Play();
-                    timeinputstring += 0 + " ";
                     timeinput(0, datecount);
                     break;
                 case Keys.D0:
                     num0.Play();
-                    timeinputstring += 0 + " ";
                     timeinput(0, datecount);
                     break;
                 case Keys.NumPad1:
                     num1.Play();
-                    timeinputstring += 1 + " ";
                     timeinput(1, datecount);
                     break;
                 case Keys.D1:
                     num1.Play();
-                    timeinputstring += 1 + " ";
                     timeinput(1, datecount);
                     break;
                 case Keys.NumPad2:
                     num2.Play();
-                    timeinputstring += 2 + " ";
                     timeinput(2, datecount);
                     break;
                 case Keys.D2:
                     num2.Play();
-                    timeinputstring += 2 + " ";
                     timeinput(2, datecount);
                     break;
                 case Keys.NumPad3:
                     num3.Play();
-                    timeinputstring += 3 + " ";
                     timeinput(3, datecount);
                     break;
                 case Keys.D3:
                     num3.Play();
-                    timeinputstring += 3 + " ";
                     timeinput(3, datecount);
                     break;
                 case Keys.NumPad4:
                     num4.Play();
-                    timeinputstring += 4 + " ";
                     timeinput(4, datecount);
                     break;
                 case Keys.D4:
                     num4.Play();
-                    timeinputstring += 4 + " ";
                     timeinput(4, datecount);
                     break;
                 case Keys.NumPad5:
                     num5.Play();
-                    timeinputstring += 5 + " ";
                     timeinput(5, datecount);
                     break;
                 case Keys.D5:
                     num5.Play();
-                    timeinputstring += 5 + " ";
                     timeinput(5, datecount);
                     break;
                 case Keys.NumPad6:
                     num6.Play();
-                    timeinputstring += 6 + " ";
                     timeinput(6, datecount);
                     break;
                 case Keys.D6:
                     num6.Play();
-                    timeinputstring += 6 + " ";
                     timeinput(6, datecount);
                     break;
                 case Keys.NumPad7:
                     num7.Play();
-                    timeinputstring += 7 + " ";
                     timeinput(7, datecount);
                     break;
                 case Keys.D7:
                     num7.Play();
-                    timeinputstring += 7 + " ";
                     timeinput(7, datecount);
                     break;
                 case Keys.NumPad8:
                     num8.Play();
-                    timeinputstring += 8 + " ";
                     timeinput(8, datecount);
                     break;
                 case Keys.D8:
                     num8.Play();
-                    timeinputstring += 8 + " ";
                     timeinput(8, datecount);
                     break;
                 case Keys.NumPad9:
                     num9.Play();
-                    timeinputstring += 9 + " ";
                     timeinput(9, datecount);
                     break;
                 case Keys.D9:
                     num9.Play();
-                    timeinputstring += 9 + " ";
                     timeinput(9, datecount);
                     break;
                 case Keys.Enter:
                     timeinputstring = "";
                     if (datecount > 11)
                     {
-                        inputenter.Play();
-                        Settime(tday1, tday2, tmonth1, tmonth2, ty1, ty2, ty3, ty4, th1, th2, tm1, tm2, tampm);
-                        datecount = 0;
-                        tday1 = 0;
-                        tday2 = 0;
-                        tmonth1 = 0;
-                        tmonth2 = 0;
-                        ty1 = 0;
-                        ty2 = 0;
-                        ty3 = 0;
-                        ty4 = 0;
-                        th1 = 0;
-                        th2 = 0;
-                        tm1 = 0;
-                        tm2 = 0;
-                        tampm = "am";
+                        if (timesettings == 2)
+                        {
+                            inputenter.Play();
+                            Settime(fday1, fday2, fmonth1, fmonth2, fy1, fy2, fy3, fy4, th1, th2, tm1, tm2, tampm);
+                            datecount = 8;
+                            tday1 = 0;
+                            tday2 = 0;
+                            tmonth1 = 0;
+                            tmonth2 = 0;
+                            ty1 = 0;
+                            ty2 = 0;
+                            ty3 = 0;
+                            ty4 = 0;
+                            th1 = 0;
+                            th2 = 0;
+                            tm1 = 0;
+                            tm2 = 0;
+                            tampm = "am";
+                        }
+                        else
+                        {
+                            inputenter.Play();
+                            Settime(tday1, tday2, tmonth1, tmonth2, ty1, ty2, ty3, ty4, th1, th2, tm1, tm2, tampm);
+                            datecount = 0;
+                            tday1 = 0;
+                            tday2 = 0;
+                            tmonth1 = 0;
+                            tmonth2 = 0;
+                            ty1 = 0;
+                            ty2 = 0;
+                            ty3 = 0;
+                            ty4 = 0;
+                            th1 = 0;
+                            th2 = 0;
+                            tm1 = 0;
+                            tm2 = 0;
+                            tampm = "am";
+                        }
                     }
-                    else if (datecount < 9)
+                    else if (datecount > 8)
                     {
                         inputenter.Play();
                         Settime(tday1, tday2, tmonth1, tmonth2, ty1, ty2, ty3, ty4, fh1, fh2, fm1, fm2, fampm);

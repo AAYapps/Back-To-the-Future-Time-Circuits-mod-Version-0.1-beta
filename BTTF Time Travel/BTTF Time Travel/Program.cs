@@ -167,7 +167,7 @@ namespace BTTF_Time_Travel
                 {
                     //testprop = !testprop;
                 }
-                else if (e.KeyCode == Keys.Multiply)
+                else if (e.KeyCode == Keys.F10)
                 {
                     ExperimentScene.possiondisplay = !ExperimentScene.possiondisplay;
                 }
@@ -207,7 +207,10 @@ namespace BTTF_Time_Travel
                         manual = true;
                     }
                 }
-
+                else if (e.KeyCode == Keys.Multiply)
+                {
+                    TimeCircuits.changetimesetting();
+                }
 
                 if (Variableclass.toggletimecurcuits)
                 {
