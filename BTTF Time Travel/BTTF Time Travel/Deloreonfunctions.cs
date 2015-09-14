@@ -114,6 +114,11 @@ namespace BTTF_Time_Travel
                     if (toggletimecurcuits)
                     {
                         inputon.Play();
+                        if (refilltimecurcuits)
+                        {
+                            Constanttimerclass.Start();
+                            runoncefeul = true;
+                        }
                     }
                     else
                     {
@@ -299,6 +304,7 @@ namespace BTTF_Time_Travel
         }
 
         static int delay = 0;
+        static bool runoncefeul = false;
         static bool flyingturnedon = false;
         static void Deloreonfunctioning()
         {
@@ -403,6 +409,20 @@ namespace BTTF_Time_Travel
                 }
             }
 
+            if (refilltimecurcuits)
+            {
+                if (runoncefeul)
+                {
+                    if (Constanttimerclass.getdelay() >= 3)
+                    {
+                        Constanttimerclass.Stop();
+                        Constanttimerclass.Reset();
+                        inputonfeul.Play();
+                        runoncefeul = false;
+                    }
+                }
+            }
+
             if (mrfopened)
             {
                 if (Constanttimerclass.getdelay() == 0)
@@ -420,6 +440,11 @@ namespace BTTF_Time_Travel
             }
             else if (toggletimecurcuits)
             {
+                if (!refilltimecurcuits)
+                {
+                    Mrfusion = new UIText("Empty", new Point(800, 110), 1, Color.Orange);
+                    Mrfusion.Draw();
+                }
                 Timedisplayf = new UIText(TimeCircuits.timedisplayfuture(), new Point(700, 150), 1, Color.Red);
                 Timedisplaypres = new UIText(TimeCircuits.timedisplaypresent(), new Point(700, 190), 1, Color.Green);
                 Timedisplaypast = new UIText(TimeCircuits.timedisplaypast(), new Point(700, 230), 1, Color.Yellow);

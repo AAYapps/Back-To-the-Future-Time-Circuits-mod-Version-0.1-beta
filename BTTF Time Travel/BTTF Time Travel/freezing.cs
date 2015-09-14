@@ -52,13 +52,13 @@ namespace BTTF_Time_Travel
                 }
                 else if (Constanttimerclass.getdelay() == 11)
                 {
-                    cold.Play();
+                    empty.Play();
                     World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
                     World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
                     World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
                     World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
                 }
-                else if (Constanttimerclass.getdelay() == 12)
+                else if (Constanttimerclass.getdelay() == 16)
                 {
                     engine.stalled = true;
                     engine.starteron = true;

@@ -95,7 +95,8 @@ namespace BTTF_Time_Travel
         static public UIText Timedisplayf;
         static public UIText Timedisplaypres;
         static public UIText Timedisplaypast;
-        static public UIText Timedisplayinput; 
+        static public UIText Timedisplayinput;
+        static public UIText Mrfusion;
 
         static public bool carjustdied = false;
         static public bool retreive = false;
