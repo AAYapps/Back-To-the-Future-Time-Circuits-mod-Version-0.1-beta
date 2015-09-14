@@ -443,7 +443,10 @@ namespace BTTF_Time_Travel
                         }
                         else
                         {
-                            sparks.PlayLooping();
+                            if (!freezing.started)
+                            {
+                                sparks.PlayLooping();
+                            }
                         }
                         past84 = true;
                     }
@@ -470,12 +473,14 @@ namespace BTTF_Time_Travel
                             Deloreon.Speed = 0;
                             if (!invicible)
                             {
-                                Deloreon.IsVisible = false;
-                                Game.Player.CanControlCharacter = false;
+                                Variableclass.Deloreon.IsInvincible = true;
+                                Variableclass.Deloreon.CanBeVisiblyDamaged = false;
                             }
-                            Constanttimerclass.Stop();
-                            Constanttimerclass.Reset();
+                            Deloreon.IsVisible = false;
                             Time_reentry.enterintime();
+                            Game.Player.CanControlCharacter = false;
+                            Constanttimerclass.Reset();
+                            Constanttimerclass.Stop();
                             if (Game.Player.WantedLevel > 0)
                             {
                                 Game.Player.WantedLevel = 0;

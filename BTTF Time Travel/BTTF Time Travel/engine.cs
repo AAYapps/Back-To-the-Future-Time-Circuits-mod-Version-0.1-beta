@@ -93,6 +93,7 @@ namespace BTTF_Time_Travel
                             enginestarted = true;
                             audioplayed = false;
                             audioplayed2 = false;
+                            tempstall = false;
                             stalled = false;
                             crank = false;
                         }
@@ -150,12 +151,41 @@ namespace BTTF_Time_Travel
                 {
                     if (audioplayed == false)
                     {
-                        if (!(Variableclass.Deloreon == null))
+                        if (tempstall)
                         {
-                            if (Game.Player.Character.IsInVehicle(Variableclass.Deloreon))
+                            if (!(Variableclass.Deloreon == null))
                             {
-                                SoundPlayer startengine = new SoundPlayer(Properties.Resources.restart_engine);
-                                startengine.Play();
+                                if (Game.Player.Character.IsInVehicle(Variableclass.Deloreon))
+                                {
+                                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.restart_engine);
+                                    player.Play();
+                                }
+                                else
+                                {
+                                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.starter_begining);
+                                    player.Play();
+                                }
+                            }
+                            else
+                            {
+                                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.starter_begining);
+                                player.Play();
+                            }
+                        }
+                        else
+                        {
+                            if (!(Variableclass.Deloreon == null))
+                            {
+                                if (Game.Player.Character.IsInVehicle(Variableclass.Deloreon))
+                                {
+                                    SoundPlayer startengine = new SoundPlayer(Properties.Resources.restart_engine);
+                                    startengine.Play();
+                                }
+                                else
+                                {
+                                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Car_start_up_damaged);
+                                    player.Play();
+                                }
                             }
                             else
                             {
@@ -163,30 +193,35 @@ namespace BTTF_Time_Travel
                                 player.Play();
                             }
                         }
-                        else
-                        {
-                            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Car_start_up_damaged);
-                            player.Play();
-                        }
                         audioplayed = true;
                     }
                     counter++;
                     if (counter >= 50)
                     {
-                        enginestarted = true;
-                        counter = 0;
-                        startsounddelay = false;
-                        audioplayed = false;
-                        if (!(Variableclass.Deloreon == null))
+                        if (tempstall)
                         {
-                            if (Game.Player.Character.IsInVehicle(Variableclass.Deloreon))
+                            counter = 0;
+                            startsounddelay = false;
+                            stalled = true;
+                            crank = true;
+                            audioplayed2 = false;
+                        }
+                        else
+                        {
+                            enginestarted = true;
+                            counter = 0;
+                            startsounddelay = false;
+                            audioplayed = false;
+                            if (!(Variableclass.Deloreon == null))
                             {
-                                SoundPlayer startengine = new SoundPlayer(Properties.Resources.engine_on);
-                                startengine.Play();
+                                if (Game.Player.Character.IsInVehicle(Variableclass.Deloreon))
+                                {
+                                    SoundPlayer startengine = new SoundPlayer(Properties.Resources.engine_on);
+                                    startengine.Play();
+                                }
                             }
                         }
                     }
-
                 }
                 else if (Game.Player.Character.CurrentVehicle.EngineHealth <= 2)
                 {
@@ -226,12 +261,41 @@ namespace BTTF_Time_Travel
                 {
                     if (audioplayed == false)
                     {
-                        if (!(Variableclass.Deloreon == null))
+                        if (tempstall)
                         {
-                            if (Game.Player.Character.IsInVehicle(Variableclass.Deloreon))
+                            if (!(Variableclass.Deloreon == null))
                             {
-                                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.engine_on);
+                                if (Game.Player.Character.IsInVehicle(Variableclass.Deloreon))
+                                {
+                                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.restart_engine);
+                                    player.Play();
+                                }
+                                else
+                                {
+                                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.starter_begining);
+                                    player.Play();
+                                }
+                            }
+                            else
+                            {
+                                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.starter_begining);
                                 player.Play();
+                            }
+                        }
+                        else
+                        {
+                            if (!(Variableclass.Deloreon == null))
+                            {
+                                if (Game.Player.Character.IsInVehicle(Variableclass.Deloreon))
+                                {
+                                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.engine_on);
+                                    player.Play();
+                                }
+                                else
+                                {
+                                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Car_start_up);
+                                    player.Play();
+                                }
                             }
                             else
                             {
@@ -239,20 +303,26 @@ namespace BTTF_Time_Travel
                                 player.Play();
                             }
                         }
-                        else
-                        {
-                            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.Car_start_up);
-                            player.Play();
-                        }
                         audioplayed = true;
                     }
                     counter++;
                     if (counter == 20)
                     {
-                        enginestarted = true;
-                        counter = 0;
-                        startsounddelay = false;
-                        audioplayed = false;
+                        if (tempstall)
+                        {
+                            counter = 0;
+                            startsounddelay = false;
+                            stalled = true;
+                            crank = true;
+                            audioplayed2 = false;
+                        }
+                        else
+                        {
+                            enginestarted = true;
+                            counter = 0;
+                            startsounddelay = false;
+                            audioplayed = false;
+                        }
                     }
                 }
             }
@@ -271,6 +341,7 @@ namespace BTTF_Time_Travel
         }
         #endregion
 
+        public static bool tempstall = false;
         #region timer
         public static void tickEvent()
         {
@@ -287,7 +358,14 @@ namespace BTTF_Time_Travel
                 }
                 else
                 {
-                    starteron = false;
+                    if (tempstall)
+                    {
+                        starteron = true;
+                    }
+                    else
+                    {
+                        starteron = false;
+                    }
                 }
             }
             else

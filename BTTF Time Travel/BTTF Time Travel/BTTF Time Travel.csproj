@@ -59,6 +59,7 @@
     <Compile Include="DeloreonStealer.cs" />
     <Compile Include="engine.cs" />
     <Compile Include="ExperimentScene.cs" />
+    <Compile Include="freezing.cs" />
     <Compile Include="outsideDeloreon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

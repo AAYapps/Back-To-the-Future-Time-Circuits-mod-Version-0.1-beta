@@ -42,6 +42,8 @@ namespace BTTF_Time_Travel
                 {
                     UIText Instruct = new UIText("delay: " + Constanttimerclass.getdelay() + "X: " + Deloreon.Position.X.ToString() + " Y: " + Deloreon.Position.Y.ToString() + " Z: " + Deloreon.Position.Z.ToString() , new Point(400, 400), (float)0.9);
                     Instruct.Draw();
+                    UIText debug2 = new UIText("Working below84 " + Time_reentry.below84 + " entertime " + Time_reentry.getenterintime() + " past84 " + past84, new Point(400, 300), (float)0.6);
+                    debug2.Draw();
                 }
             }
             catch

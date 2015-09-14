@@ -12,7 +12,7 @@ namespace BTTF_Time_Travel
     class TimeCircuits
     {
         #region Time Curcuits variables
-        static int timesettings = 1;
+        public static int timesettings = 1;
         public static int fday1 = 2, fday2 = 9, fmonth1 = 0, fmonth2 = 5
             , fy1 = 2, fy2 = 0, fy3 = 1, fy4 = 5, fh1 = 1
             , fh2 = 0, fm1 = 0, fm2 = 9, presday1 = 1, presday2 = 0
@@ -30,20 +30,15 @@ namespace BTTF_Time_Travel
 
         public static void changetimesetting()
         {
-            if (timesettings > 2)
+            if (timesettings == 2)
             {
                 timesettings = 1;
                 datecount = 0;
-                UI.Notify("Change date and time");
             }
-            else
+            else if(timesettings == 1)
             {
-                timesettings++;
-                if (timesettings == 2)
-                {
-                    datecount = 8;
-                    UI.Notify("Change time only");
-                }
+                timesettings = 2;
+                datecount = 8;
             }
         }
 
@@ -191,7 +186,7 @@ namespace BTTF_Time_Travel
                             tampm = "am";
                         }
                     }
-                    else if (datecount > 8)
+                    else if (datecount < 9)
                     {
                         inputenter.Play();
                         Settime(tday1, tday2, tmonth1, tmonth2, ty1, ty2, ty3, ty4, fh1, fh2, fm1, fm2, fampm);

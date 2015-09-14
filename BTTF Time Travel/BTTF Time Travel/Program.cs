@@ -210,6 +210,8 @@ namespace BTTF_Time_Travel
                 else if (e.KeyCode == Keys.Multiply)
                 {
                     TimeCircuits.changetimesetting();
+                    Constanttimerclass.Start();
+                    showtimesetting = true;
                 }
 
                 if (Variableclass.toggletimecurcuits)
@@ -226,7 +228,7 @@ namespace BTTF_Time_Travel
         bool entered = false;
         bool external_display = false;
         bool external_show = false;
-
+        bool showtimesetting = false;
         private void onTick(object sender, EventArgs e)
         {
             try
@@ -270,9 +272,31 @@ namespace BTTF_Time_Travel
                 Deloreonfunctions2.Check();
                 outsideDeloreon.Checkifout();
                 outsideDeloreon.Checkifout2();
+                freezing.tick();
                 if (Time_reentry.below84)
                 {
                     Time_reentry.Tick();
+                }
+
+                if (showtimesetting)
+                {
+                    if (Constanttimerclass.getdelay() >=3)
+                    {
+                        Constanttimerclass.Stop();
+                        Constanttimerclass.Reset();
+                        showtimesetting = false;
+                    }
+
+                    if (TimeCircuits.timesettings == 1)
+                    {
+                        UIText debug2 = new UIText("Time setting: Change date and time", new Point(400, 100), (float)0.6);
+                        debug2.Draw();
+                    }
+                    else if (TimeCircuits.timesettings == 2)
+                    {
+                        UIText debug2 = new UIText("Time setting: Change time only", new Point(400, 100), (float)0.6);
+                        debug2.Draw();
+                    }
                 }
             }
             catch(Exception d)
