@@ -994,9 +994,9 @@ namespace BTTF_Time_Travel.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream mrfreload {
+        internal static System.IO.UnmanagedMemoryStream mrfrusionload {
             get {
-                return ResourceManager.GetStream("mrfreload", resourceCulture);
+                return ResourceManager.GetStream("mrfrusionload", resourceCulture);
             }
         }
         

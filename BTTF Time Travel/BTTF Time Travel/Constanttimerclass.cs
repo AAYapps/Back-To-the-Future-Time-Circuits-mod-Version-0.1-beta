@@ -1,5 +1,7 @@
-﻿using System;
+﻿using GTA;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -8,18 +10,12 @@ namespace BTTF_Time_Travel
 {
     class Constanttimerclass
     {
-        static public void startthread()
-        {
-            counttimer.Start();
-        }
 
-        static Thread counttimer = new Thread(new ThreadStart(Counttimer_Tick));
-
-        static int delay = 0;
-        static bool runonce = false;
-        static bool start = false;
-        static bool pause = false;
-        static public void Start()
+        double delay = 0;
+        bool runonce = false;
+        bool start = false;
+        bool pause = false;
+        public void Start()
         {
             if (!runonce)
             {
@@ -30,44 +26,44 @@ namespace BTTF_Time_Travel
             }
         }
 
-        static public void Pause()
+        public void Pause()
         {
             pause = true;
         }
 
-        static public void Resume()
+        public void Resume()
         {
             pause = false;
         }
 
-        static public void Reset()
+        public void Reset()
         {
             delay = 0;
         }
 
-        private static void Counttimer_Tick()
+        double temptick = 0;
+
+        public double getdelay()
         {
-            do
+
+            int tick = World.CurrentDayTime.Seconds;
+            //tick
+            if (tick != temptick)
             {
                 if (start)
                 {
                     if (!pause)
                     {
-                        delay++;
-                        Thread.Sleep(1000);
+                        delay += 0.045;
                     }
                 }
-            } while (true);
-        }
-
-        static public int getdelay()
-        {
+                temptick = tick;
+            }
             return delay;
         }
 
-        static public void Stop()
+        public void Stop()
         {
-            delay++;
             start = false;
             runonce = false;
         }

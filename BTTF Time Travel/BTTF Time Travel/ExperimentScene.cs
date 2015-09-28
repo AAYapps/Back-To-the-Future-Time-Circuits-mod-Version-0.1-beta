@@ -15,6 +15,8 @@ namespace BTTF_Time_Travel
 {
     class ExperimentScene:Variableclass
     {
+        static Constanttimerclass delay = new Constanttimerclass();
+
         #region Variables
         static bool tasksent = false;
         static bool runonce = false;
@@ -30,8 +32,47 @@ namespace BTTF_Time_Travel
         static SoundPlayer Experimentstartwithreentry = new SoundPlayer(Properties.Resources.ReentryScene);
         static SoundPlayer Experimentsuccess = new SoundPlayer(Properties.Resources.Testsuccess);
         static SoundPlayer Libeads = new SoundPlayer(Properties.Resources.LibeadsenterScene);
-        static Blip posblip;
         public static bool possiondisplay = false;
+        #endregion
+
+        static Delorean_class car = new Delorean_class();
+
+        public static void CreateDeloreoninbuilding(Vector3 position)
+        {
+            if (!(car.Deloreon == null))
+            {
+                car.Deloreon.Delete();
+            }
+            car.Deloreon = World.CreateVehicle(VehicleHash.Dune2, position);
+            car.Deloreon.Rotation = new Vector3(0, 0, 102 - 90);
+            car.Deloreon.IsInvincible = true;
+            car.Deloreon.CanBeVisiblyDamaged = false;
+            if (!(Doc == null))
+            {
+                Doc.Delete();
+            }
+            Doc = car.Deloreon.CreatePedOnSeat(VehicleSeat.Driver, PedHash.Scientist01SMM);
+            Doc.RelationshipGroup = (int)Relationship.Companion;
+
+            if (!(Einstein == null))
+            {
+                Einstein.Delete();
+            }
+            Einstein = World.CreatePed(PedHash.Chop, car.Deloreon.GetOffsetInWorldCoords(new Vector3(-20, 0, 0)));
+            Einstein.RelationshipGroup = (int)Relationship.Companion;
+            Einstein.IsInvincible = true;
+
+            car.Deloreon.DirtLevel = 0;
+            car.Deloreon.CustomPrimaryColor = Color.Silver;
+            car.Deloreon.CustomSecondaryColor = Color.Black;
+            car.Deloreon.NumberPlate = "OutATime";
+            DocsExparamentstart = true;
+            delay.Reset();
+        }
+
+        #region Doc
+        static public Ped Doc;
+        static public Ped Einstein;
         #endregion
 
         static public void tick()
@@ -40,10 +81,9 @@ namespace BTTF_Time_Travel
             {
                 if (possiondisplay)
                 {
-                    UIText Instruct = new UIText("delay: " + Constanttimerclass.getdelay() + "X: " + Deloreon.Position.X.ToString() + " Y: " + Deloreon.Position.Y.ToString() + " Z: " + Deloreon.Position.Z.ToString() , new Point(400, 400), (float)0.9);
+                    UIText Instruct = new UIText("delay: " + delay.getdelay() + " X: " + car.Deloreon.Position.X.ToString() + " Y: " + car.Deloreon.Position.Y.ToString() + " Z: " + car.Deloreon.Position.Z.ToString()
+                        + Environment.NewLine + " rx: " + car.Deloreon.Rotation.X + " ry: " + car.Deloreon.Rotation.Y + " rz: " + car.Deloreon.Rotation.Z, new Point(400, 400), (float)0.9);
                     Instruct.Draw();
-                    UIText debug2 = new UIText("Working below84 " + Time_reentry.below84 + " entertime " + Time_reentry.getenterintime() + " past84 " + past84, new Point(400, 300), (float)0.6);
-                    debug2.Draw();
                 }
             }
             catch
@@ -56,7 +96,7 @@ namespace BTTF_Time_Travel
             {
                 if (!tasksent)
                 {
-                    if (Game.Player.Character.IsInRangeOf(Deloreon.GetOffsetInWorldCoords(new Vector3(0, 0, 0)), (float)30.8))
+                    if (Game.Player.Character.IsInRangeOf(car.Deloreon.GetOffsetInWorldCoords(new Vector3(0, 0, 0)), (float)30.8))
                     {
                         if (!runonce)
                         {
@@ -64,7 +104,7 @@ namespace BTTF_Time_Travel
                             loction = null;
                             tasksent = true;
                             runonce = true;
-                            Constanttimerclass.Start();
+                            delay.Start();
                             DeloreonEnter.Play();
                         }
                     }
@@ -76,29 +116,29 @@ namespace BTTF_Time_Travel
                 else if (tasksent)
                 {
                     tasksent = false;
-                    Deloreon.Repair();
+                    car.Deloreon.Repair();
                 }
 
-                if (Constanttimerclass.getdelay() == 18)
+                if (delay.getdelay() == 18)
                 {
 
                 }
-                else if (Constanttimerclass.getdelay() >= 45)
+                else if (delay.getdelay() >= 45)
                 {
-                    Deloreon.EngineRunning = false;
-                    if (Constanttimerclass.getdelay() >= 52)
+                    car.Deloreon.EngineRunning = false;
+                    if (delay.getdelay() >= 52)
                     {
-                        Doc.Task.LeaveVehicle(Deloreon, false);
+                        Doc.Task.LeaveVehicle(car.Deloreon, false);
                         DocsExparamentstart = false;
                         runonce = false;
                         sayshi = true;
-                        Constanttimerclass.Stop();
-                        Constanttimerclass.Reset();
+                        delay.Stop();
+                        delay.Reset();
                     }
                 }
-                else if (Constanttimerclass.getdelay() >= 28)
+                else if (delay.getdelay() >= 28)
                 {
-                    Deloreon.Speed = (float)-0.9;
+                    car.Deloreon.Speed = (float)-2;
                 }
             }
             else if (sayshi)
@@ -110,14 +150,14 @@ namespace BTTF_Time_Travel
                     {
                         Experimentstart.Play();
                         runonce = true;
-                        Constanttimerclass.Start();
+                        delay.Start();
                     }
                 }
 
-                if (Constanttimerclass.getdelay() >= 7)
+                if (delay.getdelay() >= 7)
                 {
-                    Constanttimerclass.Stop();
-                    Constanttimerclass.Reset();
+                    delay.Stop();
+                    delay.Reset();
                     runonce = false;
                     ExperimentwithEinstein = true;
                     sayshi = false;
@@ -131,117 +171,113 @@ namespace BTTF_Time_Travel
                     if (!runonce)
                     {
                         runonce = true;
-                        Constanttimerclass.Start();
+                        delay.Start();
                     }
                 }
 
-                if (Constanttimerclass.getdelay() == 0)
+                if (delay.getdelay() == 0)
                 {
                     UIText Instruct2 = new UIText("Take out phone and open the camera app", new Point(400, 300), (float)0.9);
                     Instruct2.Draw();
                 }
-                else if (Constanttimerclass.getdelay() == 5)
+                else if (delay.getdelay() == 5)
                 {
                     Experimentstartintro.Play();
                 }
-                else if (Constanttimerclass.getdelay() < 35)
+                else if (delay.getdelay() < 35)
                 {
-                    if (Constanttimerclass.getdelay() == 18)
+                    if (delay.getdelay() == 18)
                     {
-                        Einstein.Task.RunTo(Deloreon.GetOffsetInWorldCoords(new Vector3(-5, -4, 0)), true, 10);
-                        Einstein.Task.RunTo(Deloreon.GetOffsetInWorldCoords(new Vector3(-3,0,0)), true, 10);
+                        Einstein.Task.RunTo(car.Deloreon.GetOffsetInWorldCoords(new Vector3(-5, -4, 0)), true, 10);
+                        Einstein.Task.RunTo(car.Deloreon.GetOffsetInWorldCoords(new Vector3(-3,0,0)), true, 10);
                     }
-                    else if (Constanttimerclass.getdelay() == 24)
+                    else if (delay.getdelay() == 24)
                     {
-                        if (Einstein.IsInVehicle(Deloreon))
+                        if (Einstein.IsInVehicle(car.Deloreon))
                         {
-                            Constanttimerclass.Resume();
+                            delay.Resume();
                             Einstein.Task.ClearAll();
                         }
                         else
                         {
-                            Constanttimerclass.Pause();
+                            delay.Pause();
                             Einstein.Task.ClearAll();
-                            Einstein.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
+                            Einstein.Task.WarpIntoVehicle(car.Deloreon, VehicleSeat.Driver);
                         }
                     }
                 }
-                else if (Constanttimerclass.getdelay() >= 36)
+                else if (delay.getdelay() >= 36)
                 {
 
-                    Constanttimerclass.Stop();
-                    Constanttimerclass.Reset();
+                    delay.Stop();
+                    delay.Reset();
                     runonce = false;
                     Docwithremote = true;
                     ExperimentwithEinstein = false;
                     Einstein.Task.ClearAll();
-                    Deloreon.EngineRunning = true;
-                    RCmodeenabled = false;
+
+                    //RCmodeenabled = false;
                 }
             }
             else if (Docwithremote)
             {
-                if (posblip == null)
+                if (car.RCmode)
                 {
-                    if (RCmode)
+                    if (!runonce)
                     {
-                        if (!runonce)
-                        {
-                            posblip = World.CreateBlip(Deloreon.GetOffsetInWorldCoords(new Vector3(-250, 0, 0)), 30);
-                            posblip.Color = BlipColor.Yellow;
-                            runonce = true;
-                        }
-                    }
-                    else
-                    {
-                        UIText Instruct2 = new UIText("Switch to Remote Control Mode \"T\"", new Point(400, 300), (float)0.9);
-                        Instruct2.Draw();
+                        runonce = true;
                     }
                 }
-                else if (Game.Player.Character.IsInRangeOf(Deloreon.GetOffsetInWorldCoords(new Vector3(-250, 0, 0)), 30))
+                else
+                {
+                    UIText Instruct2 = new UIText("Switch to Remote Control Mode \"T\"", new Point(400, 300), (float)0.9);
+                    Instruct2.Draw();
+                }
+
+                if (Game.Player.Character.IsInRangeOf(car.Deloreon.GetOffsetInWorldCoords(new Vector3(-250, 0, 0)), 90))
                 {
                     if (runonce)
                     {
                         runonce = false;
                         Experimentstartwithremote.Play();
-                        Constanttimerclass.Start();
+                        delay.Start();
                     }
                 }
-                else if (Constanttimerclass.getdelay() >= 10 && Constanttimerclass.getdelay() <= 24)
+                else if (delay.getdelay() >= 10 && delay.getdelay() <= 24)
                 {
-                    Deloreon.Speed = 0;
+                    car.Deloreon.Speed = 0;
                 }
-                else if (Constanttimerclass.getdelay() >= 25 && Constanttimerclass.getdelay() <= 62)
+                else if (delay.getdelay() >= 25 && delay.getdelay() <= 62)
                 {
-                    if (Deloreon.Speed < 46)
+                    if (car.Deloreon.Speed < 46)
                     {
-                        Deloreon.PlaceOnGround();
-                        Deloreon.Speed += (float)0.1;
+                        car.Deloreon.PlaceOnGround();
+                        car.Deloreon.Speed += (float)0.1;
                     }
                 }
-                else if (Constanttimerclass.getdelay() == 58)
+                else if (delay.getdelay() == 58)
                 {
-                    Deloreon.IsVisible = false;
+                    car.Deloreon.IsVisible = false;
                 }
-                else if (Constanttimerclass.getdelay() == 59)
+                else if (delay.getdelay() == 59)
                 {
-                    Deloreon.Speed = 0;
-                    ifwentoutoffcar = true;
-                    RCmode = false;
+                    car.Deloreon.Speed = 0;
+                    car.ifwentoutoffcar = true;
+                    car.RCmode = false;
                 }
-                else if (Constanttimerclass.getdelay() == 60)
+                else if (delay.getdelay() == 60)
                 {
                     Experimentsuccess.Play();
                 }
-                else if (Constanttimerclass.getdelay() == 62)
+                else if (delay.getdelay() == 62)
                 {
-                    RCmodeenabled = true;
+                    car.RCmodeenabled = true;
                 }
-                else if (Constanttimerclass.getdelay() == 114)
+                else if (delay.getdelay() == 114)
                 {
-                    Einstein = Deloreon.CreatePedOnSeat(VehicleSeat.Driver, PedHash.Chop);
-                    Constanttimerclass.Stop();
-                    Constanttimerclass.Reset();
+                    Einstein = car.Deloreon.CreatePedOnSeat(VehicleSeat.Driver, PedHash.Chop);
+                    delay.Stop();
+                    delay.Reset();
                     Experimentstartwithreentry.Play();
                     Docwithremote = false;
                     reentry = true;
@@ -249,81 +285,81 @@ namespace BTTF_Time_Travel
             }
             else if (reentry)
             {
-                if (Constanttimerclass.getdelay() == 0)
+                if (delay.getdelay() == 0)
                 {
-                    Constanttimerclass.Start();
+                    delay.Start();
                 }
-                else if (Constanttimerclass.getdelay() == 3)
+                else if (delay.getdelay() == 3)
                 {
-                    Deloreon.Position = Doc.GetOffsetInWorldCoords(new Vector3(3,-18,0));
-                    Deloreon.Rotation = Doc.Rotation;
-                    Deloreon.Speed = 30;
-                    Deloreon.IsVisible = true;
+                    car.Deloreon.Position = Doc.GetOffsetInWorldCoords(new Vector3(3,-18,0));
+                    car.Deloreon.Rotation = Doc.Rotation;
+                    car.Deloreon.Speed = 30;
+                    car.Deloreon.IsVisible = true;
                 }
-                else if (Constanttimerclass.getdelay() < 4 && Constanttimerclass.getdelay() > 26)
+                else if (delay.getdelay() < 4 && delay.getdelay() > 26)
                 {
-                    if (Deloreon.Speed > 0)
+                    if (car.Deloreon.Speed > 0)
                     {
-                        Deloreon.Speed -= (float)0.1;
+                        car.Deloreon.Speed -= (float)0.1;
                     }
-                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.SmokeG, 10, 0);
+                    World.AddExplosion(car.Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.SmokeG, 10, 0);
                 }
-                else if (Constanttimerclass.getdelay() == 26)
+                else if (delay.getdelay() == 26)
                 {
-                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.SmokeG, 14, 0);
+                    World.AddExplosion(car.Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.SmokeG, 14, 0);
 
-                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), ExplosionType.SmokeG, 14, 0);
+                    World.AddExplosion(car.Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), ExplosionType.SmokeG, 14, 0);
 
                 }
-                else if (Constanttimerclass.getdelay() < 40)
+                else if (delay.getdelay() < 40)
                 {
-                    World.AddExplosion(Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.SmokeG, 10, 0);
+                    World.AddExplosion(car.Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), ExplosionType.SmokeG, 10, 0);
                 }
-                else if (Constanttimerclass.getdelay() == 40)
+                else if (delay.getdelay() == 40)
                 {
-                    Doc.Task.RunTo(Deloreon.GetOffsetInWorldCoords(new Vector3((float)-2.5,0,0)));
+                    Doc.Task.RunTo(car.Deloreon.GetOffsetInWorldCoords(new Vector3((float)-2.5,0,0)));
                 }
-                else if (Constanttimerclass.getdelay() == 51)
+                else if (delay.getdelay() == 51)
                 {
-                    Doc.Task.EnterVehicle(Deloreon, VehicleSeat.Driver);
+                    Doc.Task.EnterVehicle(car.Deloreon, VehicleSeat.Driver);
                 }
-                else if (Constanttimerclass.getdelay() == 52)
+                else if (delay.getdelay() == 52)
                 {
                     Doc.Task.ClearAll();
                 }
-                else if (Constanttimerclass.getdelay() == 58)
+                else if (delay.getdelay() == 58)
                 {
                     Einstein.Task.LeaveVehicle();
                 }
-                else if (Constanttimerclass.getdelay() == 80)
+                else if (delay.getdelay() == 80)
                 {
-                    Doc.Task.EnterVehicle(Deloreon, VehicleSeat.Driver);
+                    Doc.Task.EnterVehicle(car.Deloreon, VehicleSeat.Driver);
                 }
-                else if (Constanttimerclass.getdelay() >= 84 && Constanttimerclass.getdelay() < 124)
+                else if (delay.getdelay() >= 84 && delay.getdelay() < 124)
                 {
-                    toggletimecurcuits = true;
+                    car.toggletimecurcuits = true;
 
-                    if (Constanttimerclass.getdelay() >= 98)
+                    if (delay.getdelay() >= 98)
                     {
-                        TimeCircuits.Settime(0, 4, 0, 7, 1, 7, 7, 6, 0, 8, 1, 2, "am");
+                        car.Settime(0, 4, 0, 7, 1, 7, 7, 6, 0, 8, 1, 2, "am");
                     }
-                    if (Constanttimerclass.getdelay() >= 103)
+                    if (delay.getdelay() >= 103)
                     {
-                        TimeCircuits.Settime(2, 5, 1, 2, 0, 0, 0, 0, 1, 1, 1, 2, "am");
+                        car.Settime(2, 5, 1, 2, 0, 0, 0, 0, 1, 1, 1, 2, "am");
                     }
-                    if (Constanttimerclass.getdelay() >= 110)
+                    if (delay.getdelay() >= 110)
                     {
-                        TimeCircuits.Settime(0, 5, 0, 9, 1, 9, 5, 5, 1, 1, 1, 2, "am");
+                        car.Settime(0, 5, 0, 9, 1, 9, 5, 5, 1, 1, 1, 2, "am");
                     }
                 }
-                else if (Constanttimerclass.getdelay() == 124)
+                else if (delay.getdelay() == 124)
                 {
-                    toggletimecurcuits = false;
-                    Constanttimerclass.Stop();
-                    Constanttimerclass.Reset();
+                    car.toggletimecurcuits = false;
+                    delay.Stop();
+                    delay.Reset();
                     reentry = false;
                     Libeadsappear = true;
-                    Doc.Task.LeaveVehicle(Deloreon, true);
+                    Doc.Task.LeaveVehicle(car.Deloreon, true);
                 }
             }
             else if (Libeadsappear)
