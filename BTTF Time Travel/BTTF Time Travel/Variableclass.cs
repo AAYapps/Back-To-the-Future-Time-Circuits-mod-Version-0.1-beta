@@ -18,6 +18,7 @@ namespace BTTF_Time_Travel
         public static bool resetall = false;
         public static bool rcmode_send = false;
         public static Ped playerped = Game.Player.Character;
+        public static bool sendinvincible = false;
 
         #region Doc's truck
         static public Blip loction;

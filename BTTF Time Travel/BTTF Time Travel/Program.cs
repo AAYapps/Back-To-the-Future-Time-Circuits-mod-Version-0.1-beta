@@ -65,16 +65,22 @@ namespace BTTF_Time_Travel
             {
                 if (e.KeyCode == Keys.U)
                 {
-                    Function.Call<bool>(Hash.START_PARTICLE_FX_NON_LOOPED_ON_ENTITY, "scr_fbi4", (Entity)Game.Player.Character, 2, 2, 2, 2, 2, 2, 10, false, false, false);
-                    Function.Call(Hash.REQUEST_NAMED_PTFX_ASSET, "scr_fbi4");
-                    Function.Call(Hash._SET_PTFX_ASSET_NEXT_CALL, "scr_fbi4");
+                    Function.Call(Hash.SET_VEHICLE_EXTRA, 1, 1);
                 }
                 else if (e.KeyCode == Keys.J)
                 {
-
+                    Function.Call(Hash.SET_VEHICLE_EXTRA, 1, 0);
                 }
             }
         }
+
+        /*
+                            Ped playerPed = Game.Player.Character;
+
+                    Function.Call(Hash.REQUEST_NAMED_PTFX_ASSET, "scr_family4");
+                    Function.Call(Hash._SET_PTFX_ASSET_NEXT_CALL, "scr_family4");
+                    Function.Call<bool>(Hash.START_PARTICLE_FX_NON_LOOPED_AT_COORD, "scr_fam4_trailer_sparks", playerPed.Position.X, playerPed.Position.Y + 1, playerPed.Position.Z, 3, 0, 0, 2, false, false, false);
+        */
 
         public void ItemSelectHandler(UIMenu sender, UIMenuItem selectedItem, int index)
         {
@@ -1849,9 +1855,6 @@ namespace BTTF_Time_Travel
                         Deloreon = World.CreateVehicle(VehicleHash.Dune2, position, heading);
                         Deloreon.Rotation = Game.Player.Character.Rotation;
 
-                        Deloreon.IsInvincible = true;
-                        Deloreon.CanBeVisiblyDamaged = false;
-
                         Deloreon.DirtLevel = 0;
                         Deloreon.PrimaryColor = VehicleColor.BrushedAluminium;
                         Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
@@ -1884,9 +1887,9 @@ namespace BTTF_Time_Travel
                 {
                     startingscene.Start();
                 }
-                else if (e.KeyCode == Keys.F8)
+                else if (e.KeyCode == Keys.F11)
                 {
-
+                    Variableclass.sendinvincible = true;
                 }
                 else if (e.KeyCode == Keys.Delete)
                 {
