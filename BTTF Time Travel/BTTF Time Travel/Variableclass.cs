@@ -2,6 +2,7 @@
 using GTA.Math;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -19,6 +20,23 @@ namespace BTTF_Time_Travel
         public static bool rcmode_send = false;
         public static Ped playerped = Game.Player.Character;
         public static bool sendinvincible = false;
+
+        public static int Displayx = 0, Displayy = 0;
+
+        public static void write_in_log(string log)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("");
+            sb.AppendLine("Logged at " + DateTime.Now);
+            sb.AppendLine("Task that was preformed: " + log);
+            sb.AppendLine("-------------------------------------------------------------");
+            sb.AppendLine("");
+
+            // flush every 20 seconds as you do it
+            File.AppendAllText(Application.StartupPath + "\\scripts\\BTTF Time Travel.log", sb.ToString());
+            sb.Clear();
+        } 
 
         #region Doc's truck
         static public Blip loction;

@@ -16,8 +16,7 @@ namespace BTTF_Time_Travel
     class TimeTravel : Script
     {
         #region variables
-        Constanttimerclass timesetting = new Constanttimerclass();
-
+        TTTFmenu TTTF = new TTTFmenu();
         #endregion
 
         // 1724, 3314, 40 this is to the possion of delorean for tutorial mode
@@ -30,6 +29,10 @@ namespace BTTF_Time_Travel
             KeyDown += onKeyDown;
             loadscriptsettings();
             Game.Player.CanControlCharacter = true;
+            if (Game.Player.Character.IsInVehicle())
+            {
+                Game.Player.Character.CurrentVehicle.IsVisible = true;
+            }
         }
 
         System.Speech.Synthesis.SpeechSynthesizer Timeteller = new System.Speech.Synthesis.SpeechSynthesizer();
@@ -61,6 +64,31 @@ namespace BTTF_Time_Travel
                     }
                 }
             }
+            else if (Displayadjustment)
+            {
+                if (e.KeyCode == Keys.Up)
+                {
+                    Variableclass.Displayy -= 10;
+                }
+                else if (e.KeyCode == Keys.Down)
+                {
+                    Variableclass.Displayy += 10;
+                }
+                else if (e.KeyCode == Keys.Left)
+                {
+                    Variableclass.Displayx -= 10;
+                }
+                else if (e.KeyCode == Keys.Right)
+                {
+                    Variableclass.Displayx += 10;
+                }
+                else if (e.KeyCode == Keys.Enter)
+                {
+                    Displayadjustment = false;
+                    TTTF.Show();
+                }
+                Delorean_class.change_time_display_location(Variableclass.Displayx,Variableclass.Displayy);
+            }
             else
             {
                 if (e.KeyCode == Keys.U)
@@ -81,11 +109,6 @@ namespace BTTF_Time_Travel
                     Function.Call(Hash._SET_PTFX_ASSET_NEXT_CALL, "scr_family4");
                     Function.Call<bool>(Hash.START_PARTICLE_FX_NON_LOOPED_AT_COORD, "scr_fam4_trailer_sparks", playerPed.Position.X, playerPed.Position.Y + 1, playerPed.Position.Z, 3, 0, 0, 2, false, false, false);
         */
-
-        public void ItemSelectHandler(UIMenu sender, UIMenuItem selectedItem, int index)
-        {
-            UI.Notify("You have selected: ~b~" + selectedItem.Text);
-        }
 
         void loadscriptsettings()
         {
@@ -1825,6 +1848,7 @@ namespace BTTF_Time_Travel
         }
 
         bool menu = false;
+        public static bool Displayadjustment = false;
         int menuitem = 0;
         bool runonce = false;
 
@@ -1887,10 +1911,6 @@ namespace BTTF_Time_Travel
                 {
                     startingscene.Start();
                 }
-                else if (e.KeyCode == Keys.F11)
-                {
-                    Variableclass.sendinvincible = true;
-                }
                 else if (e.KeyCode == Keys.Delete)
                 {
                     Variableclass.resetall = true;
@@ -1901,19 +1921,18 @@ namespace BTTF_Time_Travel
                 }
                 else if (e.KeyCode == Keys.F10)
                 {
-
                     ExperimentScene.possiondisplay = !ExperimentScene.possiondisplay;
                 }
                 else if (e.KeyCode == Keys.F5)
                 {
-                    menu = true;
-                    Game.Player.CanControlCharacter = false;
+                    TTTF.Show();
+                    instantDelorean.toggletimecurcuits = false;
+                    //menu = true;
+                    //Game.Player.CanControlCharacter = false;
                 }
                 Variableclass.keypressed = false;
             }
         }
-
-
 
         public void display_menu(string file, string extention)
         {
@@ -1924,8 +1943,81 @@ namespace BTTF_Time_Travel
             }
             else
             {
-                UIText debug2 = new UIText("File is not present: " + img + extention, new Point(400, 100), (float)0.6);
-                debug2.Draw();
+                if (img == "time-circuits")
+                {
+                    UIText menu = new UIText("Theft to the Future Mod menu", new Point(100, 100), (float)0.6, Color.Yellow);
+                    menu.Draw();
+                    UIText menu1 = new UIText("Activate Time Circuits", new Point(100, 150), (float)0.6, Color.LightGreen);
+                    menu1.Draw();
+                    UIText menu2 = new UIText("Spawn Delorean", new Point(100, 200), (float)0.6);
+                    menu2.Draw();
+                    UIText menu3 = new UIText("Play as Marty Mcfly", new Point(100, 250), (float)0.6);
+                    menu3.Draw();
+                    UIText menu4 = new UIText("Play as Doc Brown", new Point(100, 300), (float)0.6);
+                    menu4.Draw();
+                    UIText menu5 = new UIText("Exit", new Point(100, 350), (float)0.6);
+                    menu5.Draw();
+                }
+                else if (img == "delorean")
+                {
+                    UIText menu = new UIText("Theft to the Future Mod menu", new Point(100, 100), (float)0.6, Color.Yellow);
+                    menu.Draw();
+                    UIText menu1 = new UIText("Activate Time Circuits", new Point(100, 150), (float)0.6);
+                    menu1.Draw();
+                    UIText menu2 = new UIText("Spawn Delorean", new Point(100, 200), (float)0.6, Color.LightGreen);
+                    menu2.Draw();
+                    UIText menu3 = new UIText("Play as Marty Mcfly", new Point(100, 250), (float)0.6);
+                    menu3.Draw();
+                    UIText menu4 = new UIText("Play as Doc Brown", new Point(100, 300), (float)0.6);
+                    menu4.Draw();
+                    UIText menu5 = new UIText("Exit", new Point(100, 350), (float)0.6);
+                    menu5.Draw();
+                }
+                else if (img == "marty-mcfly")
+                {
+                    UIText menu = new UIText("Theft to the Future Mod menu", new Point(100, 100), (float)0.6, Color.Yellow);
+                    menu.Draw();
+                    UIText menu1 = new UIText("Activate Time Circuits", new Point(100, 150), (float)0.6);
+                    menu1.Draw();
+                    UIText menu2 = new UIText("Spawn Delorean", new Point(100, 200), (float)0.6);
+                    menu2.Draw();
+                    UIText menu3 = new UIText("Play as Marty Mcfly", new Point(100, 250), (float)0.6, Color.LightGreen);
+                    menu3.Draw();
+                    UIText menu4 = new UIText("Play as Doc Brown", new Point(100, 300), (float)0.6);
+                    menu4.Draw();
+                    UIText menu5 = new UIText("Exit", new Point(100, 350), (float)0.6);
+                    menu5.Draw();
+                }
+                else if (img == "DOC-BROWN")
+                {
+                    UIText menu = new UIText("Theft to the Future Mod menu", new Point(100, 100), (float)0.6, Color.Yellow);
+                    menu.Draw();
+                    UIText menu1 = new UIText("Activate Time Circuits", new Point(100, 150), (float)0.6);
+                    menu1.Draw();
+                    UIText menu2 = new UIText("Spawn Delorean", new Point(100, 200), (float)0.6);
+                    menu2.Draw();
+                    UIText menu3 = new UIText("Play as Marty Mcfly", new Point(100, 250), (float)0.6);
+                    menu3.Draw();
+                    UIText menu4 = new UIText("Play as Doc Brown", new Point(100, 300), (float)0.6, Color.LightGreen);
+                    menu4.Draw();
+                    UIText menu5 = new UIText("Exit", new Point(100, 350), (float)0.6);
+                    menu5.Draw();
+                }
+                else if (img == "exit")
+                {
+                    UIText menu = new UIText("Theft to the Future Mod menu", new Point(100, 100), (float)0.6, Color.Yellow);
+                    menu.Draw();
+                    UIText menu1 = new UIText("Activate Time Circuits", new Point(100, 150), (float)0.6);
+                    menu1.Draw();
+                    UIText menu2 = new UIText("Spawn Delorean", new Point(100, 200), (float)0.6);
+                    menu2.Draw();
+                    UIText menu3 = new UIText("Play as Marty Mcfly", new Point(100, 250), (float)0.6);
+                    menu3.Draw();
+                    UIText menu4 = new UIText("Play as Doc Brown", new Point(100, 300), (float)0.6);
+                    menu4.Draw();
+                    UIText menu5 = new UIText("Exit", new Point(100, 350), (float)0.6, Color.LightGreen);
+                    menu5.Draw();
+                }
             }
         }
 
@@ -1989,20 +2081,26 @@ namespace BTTF_Time_Travel
             }
         }
         Delorean_class instantDelorean = new Delorean_class();
+        Constanttimerclass sounddelay = new Constanttimerclass();
 
-        private void onTick(object sender, EventArgs e)
+
+        public void onTick(object sender, EventArgs e)
         {
             try
             {
+                TTTF.OnTick();
                 if (Game.Player.Character.IsInVehicle())
                 {
                     if (!runonce)
                     {
-                        if (Game.Player.Character.CurrentVehicle.Model == VehicleHash.Dune2)
+                        if (Game.Player.Character.CurrentVehicle.Model == VehicleHash.Dune2 || Game.Player.Character.CurrentVehicle.Model == VehicleHash.Ruiner || Game.Player.Character.CurrentVehicle.Model == VehicleHash.Phoenix)
                         {
-                            instantDelorean.CreateDeloreonnearyou(Game.Player.Character.CurrentVehicle);
-                            Tick += instantDelorean.Check;
-                            runonce = true;
+                            if ((Game.Player.Character.CurrentVehicle == Game.Player.LastVehicle))
+                            {
+                                instantDelorean.CreateDeloreonnearyou(Game.Player.Character.CurrentVehicle);
+                                Tick += instantDelorean.Check;
+                                runonce = true;
+                            }
                         }
                     }
                 }
@@ -2011,7 +2109,11 @@ namespace BTTF_Time_Travel
                     runonce = false;
                 }
 
-
+                if (Displayadjustment)
+                {
+                    UIText debug2 = new UIText("Display Adjustment. Use arrow keys to move display, and enter to Apply change.", new Point(200, 100), (float)0.6);
+                    debug2.Draw();
+                }
 
 
                 if (Player_time_class.presday1 == 2 && Player_time_class.presday2 == 9 && Player_time_class.presmonth1 == 0 && Player_time_class.presmonth2 == 4 && Player_time_class.presy1 == 1 && Player_time_class.presy2 == 9 && Player_time_class.presy3 == 9 && Player_time_class.presy4 == 2)
@@ -2073,8 +2175,6 @@ namespace BTTF_Time_Travel
                     }
                 }
 
-                //Time_circuits_ingame_display.display_Time_circuits_dash();
-                //Time_circuits_ingame_display.tick_text_only();
                 ExperimentScene.tick();
                 startingscene.scene(Game.Player.Character.Model);
             }

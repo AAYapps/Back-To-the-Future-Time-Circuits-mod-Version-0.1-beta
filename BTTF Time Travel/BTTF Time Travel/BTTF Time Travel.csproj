@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="startingscene.cs" />
     <Compile Include="TimeCircuits.cs" />
+    <Compile Include="TTTFmenu.cs" />
     <Compile Include="Variableclass.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -587,6 +588,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Car start up.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\THEFT-FUTURE-LOGO-BLACK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 
@@ -10,6 +11,13 @@ namespace BTTF_Time_Travel
 {
     class Constanttimerclass
     {
+        public string show_debug()
+        {
+            UIText debug2 = new UIText("delay: " + delay + " " + DateTime.Now.Millisecond, new Point(400, 300), (float)0.6);
+            debug2.Draw();
+            return debug2.Caption;
+        }
+
 
         double delay = 0;
         bool runonce = false;
@@ -19,10 +27,9 @@ namespace BTTF_Time_Travel
         {
             if (!runonce)
             {
+                Variableclass.write_in_log("delay Begin");
                 start = true;
-                delay = 0;
                 runonce = true;
-                delay++;
             }
         }
 
@@ -38,35 +45,76 @@ namespace BTTF_Time_Travel
 
         public void Reset()
         {
+            Variableclass.write_in_log("delay reset");
             delay = 0;
         }
 
         double temptick = 0;
 
-        public double getdelay()
-        {
+        bool half_time = false;
 
-            int tick = World.CurrentDayTime.Seconds;
+        public void Delay_changer(double delayint)
+        {
             //tick
-            if (tick != temptick)
+            if ((DateTime.Now.Millisecond > 0 && DateTime.Now.Millisecond < 100) || (DateTime.Now.Millisecond > 400 && DateTime.Now.Millisecond < 500) || (DateTime.Now.Millisecond > 700 && DateTime.Now.Millisecond < 800))
             {
                 if (start)
                 {
                     if (!pause)
                     {
-                        delay += 0.045;
+                        if (!half_time)
+                        {
+                            delay += delayint;
+                            half_time = true;
+                        }
                     }
                 }
-                temptick = tick;
             }
+            else
+            {
+                half_time = false;
+            }
+        }
+
+        public void Delay_changer()
+        {
+
+            //tick
+            if ((DateTime.Now.Millisecond > 0 && DateTime.Now.Millisecond < 100) || (DateTime.Now.Millisecond > 400 && DateTime.Now.Millisecond < 500) || (DateTime.Now.Millisecond > 700 && DateTime.Now.Millisecond < 800))
+            {
+                if (start)
+                {
+                    if (!pause)
+                    {
+                        if (!half_time)
+                        {
+                            delay += .5;
+                            half_time = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                half_time = false;
+            }
+        }
+
+        public bool running()
+        {
+            return start;
+        }
+
+        public double getdelay()
+        {
             return delay;
         }
 
         public void Stop()
         {
+            Variableclass.write_in_log("delay end");
             start = false;
             runonce = false;
         }
-
     }
 }
