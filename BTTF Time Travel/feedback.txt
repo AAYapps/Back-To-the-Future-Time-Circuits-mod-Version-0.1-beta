@@ -1,0 +1,13 @@
+heres my suggestions
+
+1.have the screen fade on timejump and clear all objects,change weather (better would be to reload cars and peds) theres a snow mod so maybe have that enabled when you jump to december? as the snow mod is easily enabled with simple trainer or SNT 
+2.add the timecircuits menu in the corner and make it smaller less in the way also a simpler way to input numbers 
+3.make the script only function when inside the spacedocker this would allow it to sit in the game until you get in the delorean and it turns on 
+4.when turning on rc mode don't change the camera instead let the player or the camera watch the car drive away as in don't have a chasecam or have both selectable with v 
+5.hover mode for now just make the car act as a hydra without the folding tires 
+6.better particle effects and the 3 explosions when the delorean has arrived 
+7.less sound effects and lower volume on the soundeffects 
+8.an ini for functions aswell as hotkeys i would personally like to change or disable the spawn delorean turn on mod key as i'd like the mod to automatically turn on inside the delorean 
+9.maybe make the thrusters work as a sortof nitro i know the movies never had the thrusters working when driving apart from flying but still have shift activate the thrusters 
+10.just for fun make the script work when driving trains so you can timejump in a train. 
+11 maybe for later, let the delorean spawn somewhere and when you get in you will get attacked by the libeans (those vw bus's)

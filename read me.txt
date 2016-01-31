@@ -1,0 +1,54 @@
+This is a BTTF time circuits mod. For now it is in beta, but the time circuits are working. There is also a Remote control feature. 
+
+Update: Many of the bugs are fixed, and new things were added.
+
+Controls:
+
+H: spawn/remove a Delorean.
+T: RCmode.
+F10: displays debuging.
+F11: Enables/ Disables Invincibility.
+F12: turns on/off engine (If engine is damaged, starting the engine can take longer. If engine is Badly damaged, engine can possibly stall.)
+L then U (up) or J (down): Flying circuits (still needs work).
+K: (beta) tutorial mode. 
+numpad + and +: activate time circuits. 
+numpad - and -: refuel Mr.Fusion (works inside car or outside)
+* numpad: switches between Date and time mode, and Time only mode. 
+/ numpad: manual Constant timer Enable/disable (You can see it on the debug info where it says delay).
+Time circuits use 24 hour time input and displays with 12 output.
+To input time with numpad or num strip: 
+
+with Date and Time setting: 
+MMDDYYYYHHMM
+
+MMDDYYYY
+
+with Time setting only: HHMM
+
+This mod is also has Dual monitor support for an external time circuits display. 
+
+This is open source under the Apache 2.0 Licence on GitHub.
+
+Link: https://github.com/AAYapps/Back-To-the-Future-Time-Circuits-mod-Version-0.1-beta
+
+Look up Madgaz if you want a Delorean model. His model is amazing. The model in the picture is not included. The script is the only file
+
+Changelog: 
+Beta 0.2
+Flying circuits no longer fling the car in a random direction, but still need to work on the mechanics. 
+
+Added cold air (not permanent effects, at least until I can get better effects for the cold air).
+
+Added engine ignition switch.
+
+Fixed bugs in traveling through time.
+
+Added time settings to input in date with time or time only (This was implemented because of my fail safe input system. The input system prevents invalid dates and times from being entered). 
+
+Added the ability to remove Delorean (Thanks to feedback). :)
+
+Added the ability to turn off the Delorean's Invincibility (To make things more fun). 
+
+Beta 0.1
+Bugs were present when traveling through time.
+Flying circuits were buggy.
