@@ -27,7 +27,6 @@ namespace BTTF_Time_Travel
         {
             if (!runonce)
             {
-                Variableclass.write_in_log("delay Begin");
                 start = true;
                 runonce = true;
             }

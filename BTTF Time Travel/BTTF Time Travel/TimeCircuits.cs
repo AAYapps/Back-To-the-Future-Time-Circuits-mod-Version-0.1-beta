@@ -12,6 +12,72 @@ namespace BTTF_Time_Travel
 {
     class TimeCircuits
     {
+        public TimeCircuits()
+        {
+            pastday1 = Player_time_class.pastday1;
+            pastday2 = Player_time_class.pastday2;
+            pastmonth1 = Player_time_class.pastmonth1;
+            pastmonth2 = Player_time_class.pastmonth2;
+            pasty1 = Player_time_class.pasty1;
+            pasty2 = Player_time_class.pasty2;
+            pasty3 = Player_time_class.pasty3;
+            pasty4 = Player_time_class.pasty4;
+            pasth1 = Player_time_class.pasth1;
+            pasth2 = Player_time_class.pasth2;
+            pastm1 = Player_time_class.pastm1;
+            pastm2 = Player_time_class.pastm2;
+            pastampm = Player_time_class.pastampm;
+            presday1 = Player_time_class.presday1;
+            presday2 = Player_time_class.presday2;
+            presmonth1 = Player_time_class.presmonth1;
+            presmonth2 = Player_time_class.presmonth2;
+            presy1 = Player_time_class.presy1;
+            presy2 = Player_time_class.presy2;
+            presy3 = Player_time_class.presy3;
+            presy4 = Player_time_class.presy4;
+            presh1 = Player_time_class.presh1;
+            presh2 = Player_time_class.presh2;
+            presm1 = Player_time_class.presm1;
+            presm2 = Player_time_class.presm2;
+            presampm = Player_time_class.presampm;
+            fday1 = Player_time_class.fday1;
+            fday2 = Player_time_class.fday2;
+            fmonth1 = Player_time_class.fmonth1;
+            fmonth2 = Player_time_class.fmonth2;
+            fy1 = Player_time_class.fy1;
+            fy2 = Player_time_class.fy2;
+            fy3 = Player_time_class.fy3;
+            fy4 = Player_time_class.fy4;
+            fh1 = Player_time_class.fh1;
+            fh2 = Player_time_class.fh2;
+            fm1 = Player_time_class.fm1;
+            fm2 = Player_time_class.fm2;
+            fampm = Player_time_class.fampm;
+        }
+
+        #region Delorean
+        public Ped playerped = Game.Player.Character;
+        public bool RCmodeenabled = true;
+        public bool MrFusionfilltask = false;
+        public bool RCmodeactive = false;
+        public Ped RCped;
+        public double flyheight = 0;
+        public bool flyingison = false;
+        public bool ifwentoutoffcar = true;
+        public bool past84 = false;
+        public bool engineturningon = false;
+        public bool RCmode = false;
+        public int flycount = 0;
+        public bool engineison = false;
+        //public int Mrfusionpower = 0;
+        public bool refilltimecurcuits = false;
+        public bool toggletimecurcuits = false;
+        public bool canfly = false;
+        public bool carjustdied = false;
+
+        public Vehicle Deloreon;
+        #endregion
+
         #region Time Curcuits variables
         public bool timesettings = false;
         public int fday1 = 2, fday2 = 9, fmonth1 = 0, fmonth2 = 5
@@ -28,6 +94,30 @@ namespace BTTF_Time_Travel
         public int tday1, tday2, tmonth1, tmonth2, ty1, ty2, ty3, ty4, th1, th2, tm1, tm2;
         public string tampm = "";
         #endregion
+
+        public void timesurcuitsswitch()
+        {
+            if (Game.Player.Character.IsInVehicle())
+            {
+                if (Game.Player.Character.CurrentVehicle == Deloreon)
+                {
+                    toggletimecurcuits = !toggletimecurcuits;
+                    if (toggletimecurcuits)
+                    {
+                        Delorean_class.inputon.Play();
+                        if (refilltimecurcuits)
+                        {
+                            Delorean_class.Mrfusionrefilltimer.Start();
+                            Delorean_class.runoncefeul = true;
+                        }
+                    }
+                    else
+                    {
+                        Delorean_class.inputoff.Play();
+                    }
+                }
+            }
+        }
 
         public void changetimesetting()
         {
@@ -217,7 +307,7 @@ namespace BTTF_Time_Travel
             }
         }
 
-        static int datecount = 0;
+        int datecount = 0;
         private void timeinput(int numpadnumber, int count)
         {
             if (count > 11)

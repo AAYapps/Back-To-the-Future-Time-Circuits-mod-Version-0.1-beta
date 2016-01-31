@@ -16,7 +16,7 @@ namespace BTTF_Time_Travel
         {
             startscene = true;
         }
-
+        static bool runonce = false;
         static bool makeoneblip = false;
         static System.Speech.Synthesis.SpeechSynthesizer Timeteller = new System.Speech.Synthesis.SpeechSynthesizer();
         static public void scene(Model character)
@@ -27,48 +27,53 @@ namespace BTTF_Time_Travel
                 {
                     if (delay.getdelay() == 0)
                     {
-                        SoundPlayer Intro = new SoundPlayer(Properties.Resources.Intro);
-                        Intro.Play();
-                        delay.Start();
+                        if (!runonce)
+                        {
+                            delay.Start();
+                            SoundPlayer Intro = new SoundPlayer(Properties.Resources.Intro);
+                            Intro.Play();
+                            runonce = true;
+                        }
                     }
-                    else if (delay.getdelay() <= 22)
+                    else if (delay.getdelay() <= 28)
                     {
                         if (delay.getdelay() > 4 && delay.getdelay() < 7)
                         {
                             UIText debug = new UIText("Joshua Vanderzee" + Environment.NewLine + "       Presents", new Point(280, 300), (float)1.5);
                             debug.Draw();
                         }
-                        else if (delay.getdelay() > 10 && delay.getdelay() < 13)
+                        else if (delay.getdelay() > 12 && delay.getdelay() < 16)
                         {
                             UIText debug = new UIText("               A" + Environment.NewLine + "Grand Theft Auto V BTTF" + Environment.NewLine + "             Mod", new Point(280, 200), (float)1.5);
                             debug.Draw();
                         }
-                        else if (delay.getdelay() > 15 && delay.getdelay() < 20)
+                        else if (delay.getdelay() > 22 && delay.getdelay() < 28)
                         {
                             UIText debug = new UIText("Go to the Desert air feild", new Point(280, 200), (float)1.5);
                             debug.Draw();
                         }
-                        else if (delay.getdelay() == 22)
+                        else if (delay.getdelay() == 28)
                         {
                             if (!makeoneblip)
                             {
                                 if (loction == null)
                                 {
-                                    loction = World.CreateBlip(new Vector3(1724, 3314, 40));
+                                    loction = World.CreateBlip(new Vector3(1264, 3141, 40));
                                     loction.Color = BlipColor.Green;
                                     makeoneblip = true;
                                 }
                             }
-                            delay.Stop();
+
                         }
                     }
-                    else if (delay.getdelay() == 23)
+                    else if (delay.getdelay() == 29)
                     {
-                        if (Game.Player.Character.IsInRangeOf(new Vector3(1724, 3314, 40), 220))
+                        if (Game.Player.Character.IsInRangeOf(new Vector3(1264, 3141, 40), 220))
                         {
                             startscene = false;
-                            //CreateDeloreoninbuilding(new Vector3(1724, 3314, 40));
+                           ExperimentScene.CreateDeloreonintruck(new Vector3(1294, 3141, 40));
                         }
+                        delay.Stop();
                     }
                 }
                 else if (character == PedHash.Franklin)
@@ -105,6 +110,7 @@ namespace BTTF_Time_Travel
                         delay.Stop();
                     }
                 }
+                delay.Delay_changer();
             }
         }
     }

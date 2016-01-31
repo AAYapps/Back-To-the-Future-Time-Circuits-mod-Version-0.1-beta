@@ -68,6 +68,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Real_Engine_class.cs" />
     <Compile Include="startingscene.cs" />
     <Compile Include="TimeCircuits.cs" />
     <Compile Include="TTTFmenu.cs" />
