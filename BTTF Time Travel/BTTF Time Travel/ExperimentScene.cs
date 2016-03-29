@@ -113,7 +113,7 @@ namespace BTTF_Time_Travel
         static public void tick()
         {
             UIText Instruct = new UIText("delay: " + delay.getdelay(), new Point(400, 300), (float)0.9);
-            Instruct.Draw();
+            //Instruct.Draw();
 
             try
             {

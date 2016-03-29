@@ -82,7 +82,7 @@ namespace BTTF_Time_Travel
 
                 // At 90 degrees to the players heading
 
-                Deloreanlist[0].Deloreon = World.CreateVehicle(new Model("DMC12"), position, 0);
+                Deloreanlist[0].Deloreon = World.CreateVehicle(Deloreanmodel, position, 0);
                 Deloreanlist[0].Deloreon.Rotation = new Vector3((float)3.419171, (float)3.125508, (float)118.2247);
 
                 Deloreanlist[0].Deloreon.IsInvincible = true;
@@ -108,12 +108,23 @@ namespace BTTF_Time_Travel
 
         public void RemoveDelorean()
         {
-            for (int i = 0; i < Deloreanlist.Count; i++)
+            if (Deloreanlist.Count - 1 <= 0)
             {
-                if (Deloreanlist[i].Deloreon == Game.Player.Character.CurrentVehicle)
+                Game.Player.Character.CurrentVehicle.Delete();
+            }
+            else
+            {
+                for (int i = 0; i < Deloreanlist.Count; i++)
                 {
-                    Deloreanlist[i].Deloreon.Delete();
-                    Deloreanlist.Remove(Deloreanlist[i]);
+                    if (Deloreanlist[i].Deloreon == Game.Player.Character.CurrentVehicle)
+                    {
+                        Deloreanlist[i].Deloreon.Delete();
+                        Deloreanlist.Remove(Deloreanlist[i]);
+                    }
+                }
+                if (Game.Player.Character.IsInVehicle())
+                {
+                    Game.Player.Character.CurrentVehicle.Delete();
                 }
             }
         }
@@ -168,9 +179,6 @@ namespace BTTF_Time_Travel
                     if (!(Game.Player.Character == Deloreanlist[index].playerped))
                     {
                         Function.Call(Hash.CHANGE_PLAYER_PED, Game.Player, Deloreanlist[index].playerped, true, true);
-                    }
-                    else if (Game.Player.Character == Deloreanlist[index].playerped)
-                    {
                         Deloreanlist[index].RCmodeactive = false;
                         Deloreanlist[index].RCped.Delete();
                         Deloreanlist[index].RCped = null;
@@ -272,11 +280,6 @@ namespace BTTF_Time_Travel
                     Deloreanlist[index].MrFusionfilltask = true;
                 }
             }
-        }
-
-        public void Flighthight(int num, int index)
-        {
-            Deloreanlist[index].flyheight += num;
         }
 
 
@@ -1285,6 +1288,7 @@ namespace BTTF_Time_Travel
                         if (File.Exists(image + img))
                         {
                             Sprite.DrawTexture(image + img, new Point(loc.X + 427, loc.Y + 157), new Size(10, 14));
+                            Deloreanlist[index].Deloreon.SetMod(VehicleMod.Grille, 0, true);
                         }
                         else
                         {
@@ -1298,6 +1302,7 @@ namespace BTTF_Time_Travel
                         if (File.Exists(image + img))
                         {
                             Sprite.DrawTexture(image + img, new Point(loc.X + 427, loc.Y + 157), new Size(10, 14));
+                            Deloreanlist[index].Deloreon.SetMod(VehicleMod.Grille, -1, true);
                         }
                         else
                         {
@@ -2150,6 +2155,7 @@ namespace BTTF_Time_Travel
                         if (File.Exists(image + img))
                         {
                             Sprite.DrawTexture(image + img, new Point(loc.X + X + 287, loc.Y + Y + 40), new Size(10, 14));
+                            Deloreanlist[index].Deloreon.SetMod(VehicleMod.Grille, 0, true);
                         }
                         else
                         {
@@ -2163,6 +2169,7 @@ namespace BTTF_Time_Travel
                         if (File.Exists(image + img))
                         {
                             Sprite.DrawTexture(image + img, new Point(loc.X + X + 287, loc.Y + Y + 40), new Size(10, 14));
+                            Deloreanlist[index].Deloreon.SetMod(VehicleMod.Grille, -1, true);
                         }
                         else
                         {
@@ -2552,23 +2559,10 @@ namespace BTTF_Time_Travel
 
         #endregion
 
-
-        float x = 0;
-        float y = 0;
-        float z = 0;
-        float dx = 0;
-        float dy = 0;
-        float dz = 0;
-        float d = 0;
-        float b = 0;
-        float r = 0;
-        float f = 0;
-        float ra = 0;
         public static bool runoncefeul = false;
         public static bool flyingturnedon = false;
         public static bool stoponce = false;
         public static float flyspeed = 0;
-        float upspeed = 0;
         public static int steer = 0;
         public bool sparkprotect = false;
         public void time_circuits_while_inside_another_car(int index)
@@ -2657,26 +2651,46 @@ namespace BTTF_Time_Travel
             Function.Call(Hash._0xDD19FA1C6D657305, new InputArgument[] { Deloreanlist[index].Deloreon.Position.X, Deloreanlist[index].Deloreon.Position.Y, Deloreanlist[index].Deloreon.Position.Z, 10 });
             Function.Call(Hash._0xB80D8756B4668AB6, new InputArgument[] { root });
             Function.Call(Hash._0x6C38AF3693A69A91, new InputArgument[] { root });
-            //Function.Call(Hash._0x7F8F65877F88783B, new InputArgument[] { root, 30, 144, 255});
             Function.Call(Hash._0x0D53A3B8DA0809D2, new InputArgument[] { effect, Game.Player.Character.CurrentVehicle.Handle, 0.0, 3.0, 0.5, 0.0, 0.0, 0.0, 3.0, 0, 0, 0 });
+        }
+
+        Constanttimerclass timertodelete = new Constanttimerclass();
+        List<Vehicle> deaddelorean = new List<Vehicle>();
+        void setfordeletion(Vehicle delorean)
+        {
+            deaddelorean.Add(delorean);
+        }
+
+        int deletioncount = 0;
+        void deletiontick()
+        {
+            timertodelete.Delay_changer();
+            if (deaddelorean.Count > 0)
+                if (DateTime.Now.Millisecond % 60 >= 30 && DateTime.Now.Millisecond % 60 <= 60)
+                {
+                    if (deletioncount == 1000)
+                    {
+                        foreach (Vehicle dead in deaddelorean)
+                        {
+                            dead.Delete();
+                        }
+                        deletioncount = 0;
+                    }
+
+                    deletioncount++;
+                }
+            //UI.ShowSubtitle("delete: " + deletioncount);
         }
 
         void Deloreonfunctioning(int index)
         {
             #region functions
             display_background();
-            //UIResText Deloreanfusionnum = new UIResText("Mr. Fusion: " + Deloreanlist[index].Mrfusionpower + "%", new Point(loc.X, loc.Y - 80), (float)0.6, Color.Red);
-            //Deloreanfusionnum.Draw();
             UIResText Deloreanlistnum = new UIResText("Number of Time Machines: " + Deloreanlist.Count.ToString(), new Point(loc.X, loc.Y - 50), (float)0.6, Color.Red);
             Deloreanlistnum.Draw();
             UIResText Deloreanspeed = new UIResText("Speed: " + (int)((Deloreanlist[index].Deloreon.Speed / .27777) / 1.60934), new Point(loc.X, loc.Y - 130), (float)0.6, Color.Red);
             Deloreanspeed.Draw();
             UIResText Deloreanpos = new UIResText(Deloreanlist[index].Deloreon.Rotation.ToString(), new Point(500, loc.Y - 130), (float)0.6, Color.Red);
-            Deloreanpos.Draw();
-            //if (Deloreanlist[index].Mrfusionpower <= 30)
-            //{
-                
-            //}
 
             if (!Deloreanlist[index].engineturningon)
             {
@@ -2700,11 +2714,10 @@ namespace BTTF_Time_Travel
                 {
                     Deloreanlist[index].carjustdied = true;
                     trend.Play();
+                    setfordeletion(Deloreanlist[index].Deloreon);
                     Deloreanlist[index].Deloreon.IsPersistent = false;
-                    Deloreanlist[index].Deloreon.MarkAsNoLongerNeeded();
                     Deloreanlist[index].Deloreon = null;
                     Game.Player.Character.CurrentVehicle.Detach();
-                    Deloreanlist[index].engineison = false;
                     Deloreanlist[index].ifwentoutoffcar = true;
                     Deloreanlist.Remove(Deloreanlist[index]);
                 }
@@ -2719,14 +2732,42 @@ namespace BTTF_Time_Travel
                         Mrfusionrefilltimer.Stop();
                         Mrfusionrefilltimer.Reset();
                         inputonfeul.Play();
+                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                        Deloreanlist[index].Deloreon.SetMod(VehicleMod.FrontBumper, 0, true);
+                        Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, -1, true);
                         runoncefeul = false;
                     }
+                }
+                if (Mrfusionrefilltimer.getdelay() < 3)
+                {
+                    if (!Deloreanlist[index].toggletimecurcuits)
+                    {
+                        if (!freezestarted)
+                        {
+                            Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                            Deloreanlist[index].Deloreon.SetMod(VehicleMod.FrontBumper, -1, true);
+                            Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, -1, true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (!freezestarted)
+                {
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.FrontBumper, -1, true);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, -1, true);
                 }
             }
             #endregion
 
             if (Deloreanlist[index].toggletimecurcuits)
-            {                
+            {
+                //timedisplay
+                Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                Deloreanlist[index].Deloreon.SetMod(VehicleMod.SideSkirt, 0, true);
+                //Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 8, 0 });
                 tick(index);
                 int tempspeed = (int)((Deloreanlist[index].Deloreon.Speed / .27777) / 1.60934);
                 
@@ -2735,11 +2776,11 @@ namespace BTTF_Time_Travel
                     sparkprotect = true;
                     if (!below84)
                     {
-                        if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreanlist[index].Deloreon, 5 }))
-                        {
-                            Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreanlist[index].Deloreon, 5, 0 });
-                        }
-                        make_effect("scr_martin1", "scr_sol1_sniper_impact", index);
+                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                        Deloreanlist[index].Deloreon.SetMod(VehicleMod.Spoilers, 0, true);
+                        Deloreanlist[index].Deloreon.SetMod(VehicleMod.Frame, 5, true);
+                        if (Deloreanlist[index].refilltimecurcuits)
+                            make_effect("scr_martin1", "scr_sol1_sniper_impact", index);
                     }
                     World.DrawLightWithRange(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.DodgerBlue, (float)1.2, 400);
                     if (!Deloreanlist[index].past84)
@@ -2762,11 +2803,11 @@ namespace BTTF_Time_Travel
                 {
                     if (!below84)
                     {
-                        if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreanlist[index].Deloreon, 5 }))
-                        {
-                            Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreanlist[index].Deloreon, 5, 0 });
-                        }
-                        make_effect("scr_martin1", "scr_sol1_sniper_impact", index);
+                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                        Deloreanlist[index].Deloreon.SetMod(VehicleMod.Spoilers, 0, true);
+                        Deloreanlist[index].Deloreon.SetMod(VehicleMod.Frame, 5, true);
+                        if (Deloreanlist[index].refilltimecurcuits)
+                            make_effect("scr_martin1", "scr_sol1_sniper_impact", index);
                     }
                     World.DrawLightWithRange(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.DodgerBlue, (float)1.2, 400);
                     if (Deloreanlist[index].refilltimecurcuits)
@@ -2848,16 +2889,20 @@ namespace BTTF_Time_Travel
                                 Deloreanlist[index].refilltimecurcuits = false;
                                 Deloreanlist[index].Deloreon.DirtLevel = 12;
                                 below84 = true;
-                                if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreanlist[index].Deloreon, 5 }))
+                                if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10 }))
                                 {
-                                    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreanlist[index].Deloreon, 5, -1 });
+                                    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10, -1 });
                                 }
                                 startfreeze();
+                                Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                                Deloreanlist[index].Deloreon.SetMod(VehicleMod.Spoilers, 1, true);
+                                Deloreanlist[index].Deloreon.SetMod(VehicleMod.FrontBumper, -1, true);
                             }
                             else
                             {
                                 enterintime();
-                                World.AddExplosion(Deloreanlist[index].Deloreon.Position, ExplosionType.Car, 10, 0);
+                                make_effect("scr_rcpaparazzo1", "scr_rcpap1_camera", index);
+
                                 Timetravelreenterycutscene.Play();
                                 //Timetravelreentery.Play();
                                 if (!stoponce)
@@ -2868,7 +2913,6 @@ namespace BTTF_Time_Travel
                                 if (!Variableclass.sendinvincible)
                                 {
                                     Deloreanlist[index].Deloreon.IsInvincible = true;
-                                    Deloreanlist[index].Deloreon.CanBeVisiblyDamaged = false;
                                 }
                                 Deloreanlist[index].Deloreon.IsVisible = false;
 
@@ -2891,10 +2935,13 @@ namespace BTTF_Time_Travel
                                     Game.Player.WantedLevel = 0;
                                 }
                                 rentry.Start();
-                                if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreanlist[index].Deloreon, 5 }))
+                                if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10 }))
                                 {
-                                    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreanlist[index].Deloreon, 5, -1 });
+                                    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10, -1 });
                                 }
+                                Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                                Deloreanlist[index].Deloreon.SetMod(VehicleMod.Spoilers, 1, true);
+                                Deloreanlist[index].Deloreon.SetMod(VehicleMod.FrontBumper, -1, true);
                             }
                         }
                     }
@@ -2908,12 +2955,11 @@ namespace BTTF_Time_Travel
                             sparkprotect = false;
                             stoponce = false;
                             sparks.Stop();
+                            Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                            Deloreanlist[index].Deloreon.SetMod(VehicleMod.Spoilers, 1, true);
                         }
                     }
-                    if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreanlist[index].Deloreon, 5 }))
-                    {
-                        Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreanlist[index].Deloreon, 5, -1 });
-                    }
+
                     if (Function.Call<int>(Hash.GET_FOLLOW_VEHICLE_CAM_VIEW_MODE) == 4)
                     {
                         below84 = false;
@@ -2921,27 +2967,59 @@ namespace BTTF_Time_Travel
                     delay.Stop();
                     delay.Reset();
                     Deloreanlist[index].past84 = false;
+                    flux_capcitor(index);
                 }
             }
             else
             {
-                if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreanlist[index].Deloreon, 5 }))
-                {
-                    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreanlist[index].Deloreon, 5, -1 });
-                }
+                Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                Deloreanlist[index].Deloreon.SetMod(VehicleMod.FrontBumper, -1, true);
+                Deloreanlist[index].Deloreon.SetMod(VehicleMod.SideSkirt, -1, true);
+                Deloreanlist[index].Deloreon.SetMod(VehicleMod.Spoilers, -1, true);
+                Deloreanlist[index].Deloreon.SetMod(VehicleMod.Frame, -1, true);
+                Deloreanlist[index].Deloreon.SetMod(VehicleMod.Grille, -1, true);
             }
         }
         bool startcar = false;
+        int fluxanim = 0;
+        bool timeonce = false;
+        void flux_capcitor(int index)
+        {
+            //UIText debug2 = new UIText("Time: " + DateTime.Now.Millisecond % 500, new Point(200, 100), (float)0.6);
+            //debug2.Draw();
+            if (DateTime.Now.Millisecond % 120 >= 60 && DateTime.Now.Millisecond % 120 <= 120)
+            {
+                Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                
+                if (!timeonce)
+                {
+                    fluxanim++;
 
-        bool deloreanspawn = false;
+                    if (fluxanim == 2)
+                    {
+                        fluxanim = 0;
+                    }
+
+                    if (fluxanim == 0)
+                    {
+                        Deloreanlist[index].Deloreon.SetMod(VehicleMod.Frame, 1, true);
+
+                    }
+                    else if (fluxanim == 1)
+                    {
+                        Deloreanlist[index].Deloreon.SetMod(VehicleMod.Frame, 2, true);
+                    }
+                    timeonce = true;
+                }
+            }
+            else
+            {
+                timeonce = false;
+            }
+        }
         public static string keystring = "";
         public void Check(object sender, EventArgs e)
         {
-            if (!deloreanspawn)
-            {
-                CreateDeloreon();
-                deloreanspawn = true;
-            }
             if (mrfusiontask.running())
                 mrfusiontask.Delay_changer();
 
@@ -2951,6 +3029,7 @@ namespace BTTF_Time_Travel
             if (Mrfusionrefilltimer.running())
                 Mrfusionrefilltimer.Delay_changer();
 
+            deletiontick();
             if (rentry.running())
             {
                 for (int i = 0; i < Deloreanlist.Count; i++)
@@ -3010,11 +3089,6 @@ namespace BTTF_Time_Travel
 
             for (int index = 0; index < Deloreanlist.Count; index++)
             {
-                if (!(Deloreanlist[index].Deloreon == null))
-                {
-
-                }
-
                 if (Game.Player.Character.IsInVehicle() || Deloreanlist[index].RCmode)
                 {
                     if (!(Deloreanlist[index].Deloreon == null))
@@ -3067,6 +3141,23 @@ namespace BTTF_Time_Travel
                                 {
                                     //UI.ShowSubtitle("Flying mode", 5);
                                     Toggleflight(index);
+                                    //startfreeze();
+                                    Variableclass.keypressed = true;
+                                }
+                            }
+                            if (Game.IsKeyPressed(Keys.K))
+                            {
+                                if (!Variableclass.keypressed)
+                                {
+
+                                    Variableclass.keypressed = true;
+                                }
+                            }
+                            if (Game.IsKeyPressed(Keys.J))
+                            {
+                                if (!Variableclass.keypressed)
+                                {
+
                                     Variableclass.keypressed = true;
                                 }
                             }
@@ -3323,7 +3414,6 @@ namespace BTTF_Time_Travel
                             if (!Variableclass.sendinvincible)
                             {
                                 Deloreanlist[index].Deloreon.IsInvincible = false;
-                                Deloreanlist[index].Deloreon.CanBeVisiblyDamaged = true;
                             }
                             below84 = false;
                             runonce = false;
@@ -3331,6 +3421,8 @@ namespace BTTF_Time_Travel
                             rentry.Stop();
                             rentry.Reset();
                             Game.Player.CanControlCharacter = true;
+                            Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                            Deloreanlist[index].Deloreon.SetMod(VehicleMod.Spoilers, 1, true);
                         }
                     }
                     else if (rentry.getdelay() > 10 && rentry.getdelay() < 11)
@@ -3380,7 +3472,7 @@ namespace BTTF_Time_Travel
                             reenterybttf2.Play();
                             if (exploding == 0)
                             {
-                                World.AddExplosion(Deloreanlist[index].Deloreon.Position, ExplosionType.ProxMine, 10, 0);
+                                World.AddExplosion(Deloreanlist[index].Deloreon.Position, ExplosionType.SmokeG, 10, 0);
                                 exploding = 1;
                             }
                             Game.Player.WantedLevel = 0;
@@ -3431,7 +3523,7 @@ namespace BTTF_Time_Travel
                     {
                         if (exploding == 1)
                         {
-                            World.AddExplosion(Deloreanlist[index].Deloreon.Position, ExplosionType.ProxMine, 10, 0);
+                            World.AddExplosion(Deloreanlist[index].Deloreon.Position, ExplosionType.SmokeG, 10, 0);
                             exploding = 2;
                         }
                     }
@@ -3439,7 +3531,7 @@ namespace BTTF_Time_Travel
                     {
                         if (exploding == 2)
                         {
-                            World.AddExplosion(Deloreanlist[index].Deloreon.Position, ExplosionType.ProxMine, 10, 0);
+                            World.AddExplosion(Deloreanlist[index].Deloreon.Position, ExplosionType.SmokeG, 10, 0);
                         }
                         exploding = 0;
 
@@ -3460,15 +3552,6 @@ namespace BTTF_Time_Travel
                             Deloreanlist[index].Deloreon.Speed = 30;
                             speedonce = true;
                         }
-                        if (!Variableclass.sendinvincible)
-                        {
-                            Deloreanlist[index].Deloreon.IsInvincible = false;
-                            Deloreanlist[index].Deloreon.CanBeVisiblyDamaged = true;
-                        }
-                        else
-                        {
-                            Deloreanlist[index].Deloreon.Repair();
-                        }
                         //Deloreanlist[index].Mrfusionpower -= 3;
                         Deloreanlist[index].refilltimecurcuits = false;
                         entertime = false;
@@ -3484,6 +3567,14 @@ namespace BTTF_Time_Travel
                         runonce = false;
                         below84 = false;
                         speedonce = false;
+                        if (!Variableclass.sendinvincible)
+                        {
+                            Deloreanlist[index].Deloreon.IsInvincible = false;
+                        }
+                        else
+                        {
+                            Deloreanlist[index].Deloreon.Repair();
+                        }
                         rentry.Stop();
                         rentry.Reset();
                         startfreeze();
@@ -3495,14 +3586,12 @@ namespace BTTF_Time_Travel
         Constanttimerclass freeze = new Constanttimerclass();
 
         public bool freezestarted = false;
-        int freezetime = 40; 
         void make_effect_smoke(string root, string effect, int index)
         {
             Function.Call(Hash._0xDD19FA1C6D657305, new InputArgument[] { Deloreanlist[index].Deloreon.Position.X, Deloreanlist[index].Deloreon.Position.Y, Deloreanlist[index].Deloreon.Position.Z, 10 });
             Function.Call(Hash._0xB80D8756B4668AB6, new InputArgument[] { root });
             Function.Call(Hash._0x6C38AF3693A69A91, new InputArgument[] { root });
-            //Function.Call(Hash._0x7F8F65877F88783B, new InputArgument[] { root, 30, 144, 255});
-            Function.Call(Hash._0x0D53A3B8DA0809D2, new InputArgument[] { effect, Game.Player.Character.CurrentVehicle.Handle, 0.0, -2.5, 0.5, 0.0, 0.0, 0.0, 3.0, 0, 0, 0 });
+            Function.Call(Hash._0x0D53A3B8DA0809D2, new InputArgument[] { effect, Deloreanlist[index].Deloreon.Handle, 0.0, -2.5, 0.5, 0.0, 0.0, 0.0, 3.0, 0, 0, 0 });
         }
         public void startfreeze()
         {
@@ -3510,12 +3599,13 @@ namespace BTTF_Time_Travel
             freezestarted = true;
         }
 
-        int eplode = (int)ExplosionType.BZGas;
         int ice = 0;
         public void tickfreeze(int index)
         {
             if (freezestarted)
             {
+                //UIText Instruct = new UIText("delay: " + freeze.getdelay(), new Point(400, 300), (float)0.9);
+                //Instruct.Draw();
                 if (freeze.getdelay() <= 3)
                 {
                     ice = 12;
@@ -3526,45 +3616,95 @@ namespace BTTF_Time_Travel
                 }
                 else if (freeze.getdelay() > 8 && freeze.getdelay() < 9)
                 {
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    Vent.Play();
+                    if (Deloreanlist[index].Deloreon.Model == "bttf")
+                        Vent.Play();
                 }
                 else if (freeze.getdelay() > 10 && freeze.getdelay() < 11)
                 {
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
+
                 }
                 else if (freeze.getdelay() > 11 && freeze.getdelay() < 12)
                 {
-                    make_effect_smoke("scr_mp_creator", "scr_mp_plane_landing_tyre_smoke", index);
+                    if (Deloreanlist[index].Deloreon.Model == "bttf")
+                        make_effect_smoke("scr_mp_creator", "scr_mp_plane_landing_tyre_smoke", index);
                     Application.DoEvents();
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3((float)0.5, (float)-2.4, 0)), ExplosionType.Steam, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-(float)0.5, (float)-2.4, 0)), ExplosionType.Steam, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
                 }
-                else if (freeze.getdelay() > 19 && freeze.getdelay() < 20)
+                else if (freeze.getdelay() == 19.5)
                 {
                     if (!Deloreanlist[index].refilltimecurcuits)
                         empty.Play();
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
                 }
-                else if (freeze.getdelay() > 31 && freeze.getdelay() < 32)
+                else if (freeze.getdelay() == 20)
                 {
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, 2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
-                    //World.AddExplosion(Deloreanlist[index].Deloreon.GetOffsetInWorldCoords(new Vector3(-1, -2, 0)), (ExplosionType)eplode, (float)2, 0);
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, 0, true);
+                }
+                else if (freeze.getdelay() == 20.5)
+                {
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, -1, true);
+                }
+                else if (freeze.getdelay() == 21.5)
+                {
+                    if (!Deloreanlist[index].refilltimecurcuits)
+                        //empty.Play();
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, 0, true);
+                }
+                else if (freeze.getdelay() == 22)
+                {
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, -1, true);
+                }
+                else if (freeze.getdelay() == 22.5)
+                {
+                    if (!Deloreanlist[index].refilltimecurcuits)
+                        //empty.Play();
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, 0, true);
+                }
+                else if (freeze.getdelay() == 23)
+                {
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, -1, true);
+                }
+                else if (freeze.getdelay() == 24)
+                {
+                    if (!Deloreanlist[index].refilltimecurcuits)
+                        //empty.Play();
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, 0, true);
+                }
+                else if (freeze.getdelay() == 24.5)
+                {
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, -1, true);
+                }
+                else if (freeze.getdelay() == 25)
+                {
+                    if (!Deloreanlist[index].refilltimecurcuits)
+                        //empty.Play();
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, 0, true);
+                }
+                else if (freeze.getdelay() == 25.5)
+                {
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, -1, true);
+                }
+                else if (freeze.getdelay() == 26.5)
+                {
+                    if (!Deloreanlist[index].refilltimecurcuits)
+                        //empty.Play();
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreanlist[index].Deloreon.Handle, 0);
+                    Deloreanlist[index].Deloreon.SetMod(VehicleMod.Roof, 0, true);
+                }
+                else if (freeze.getdelay() == 27)
+                {
+
+                }
+                else if (freeze.getdelay() == 31)
+                {
                     cold.Play();
                 }
                 else if (freeze.getdelay() > 41 && freeze.getdelay() < 46)
@@ -3573,7 +3713,7 @@ namespace BTTF_Time_Travel
                         ice--;
                     Deloreanlist[index].Deloreon.DirtLevel = ice;
                 }
-                else if (freeze.getdelay() > 47 && freeze.getdelay() < 48)
+                else if (freeze.getdelay() == 48)
                 {
                     freeze.Stop();
                     freeze.Reset();

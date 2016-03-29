@@ -48,8 +48,6 @@ namespace BTTF_Time_Travel
             delay = 0;
         }
 
-        double temptick = 0;
-
         bool half_time = false;
 
         public void Delay_changer(double delayint)

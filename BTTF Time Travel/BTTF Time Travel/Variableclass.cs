@@ -16,29 +16,7 @@ namespace BTTF_Time_Travel
     {
         #region display images
 
-        static public Bitmap background;
-        Bitmap d0;
-        Bitmap d1;
-        Bitmap d2;
-        Bitmap d3;
-        Bitmap d4;
-        Bitmap d5;
-        Bitmap d6;
-        Bitmap d7;
-        Bitmap d8;
-        Bitmap d9;
-        Bitmap djan;
-        Bitmap dfeb;
-        Bitmap dmar;
-        Bitmap dapr;
-        Bitmap dmay;
-        Bitmap djun;
-        Bitmap djul;
-        Bitmap daug;
-        Bitmap dsep;
-        Bitmap doct;
-        Bitmap dnov;
-        Bitmap ddec;
+
         #endregion
 
         public static int RCfeqency = 0;
@@ -73,9 +51,5 @@ namespace BTTF_Time_Travel
         #region Doc's Exparament
         static public bool DocsExparamentstart = false;
         #endregion
-
-        public static Vector3 temp_light_pos;
-        public static Vector3 temp_light_dir;
-
     }
 }

@@ -87,36 +87,6 @@
     <None Include="Resources\mrfreload.wav" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\0.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\1.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\2.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\3.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\4.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\5.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\6.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\7.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\8.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\9.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\gglow.wav" />
   </ItemGroup>
   <ItemGroup>
@@ -195,13 +165,7 @@
     <None Include="Resources\door_open.wav" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\empty.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\engine_off.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\engine_on.wav" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Error.wav" />
@@ -223,9 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\input_enter_error.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\input_off.wav" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\input_off_bttf3.wav" />
@@ -594,6 +555,45 @@
     <Resource Include="Resources\THEFT-FUTURE-LOGO-BLACK.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\0.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\engine_on.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\input_off.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\empty.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

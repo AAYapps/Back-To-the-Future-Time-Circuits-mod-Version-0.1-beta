@@ -62,14 +62,14 @@ namespace BTTF_Time_Travel
                 Model Deloreanmodel = new Model("DMC12");
                 if (Deloreanmodel.IsValid)
                 {
-                    Vehicle Deloreon;
+                    Vehicle Deloreon = null;
 
                     Vector3 position = Game.Player.Character.Position;
 
                     // At 90 degrees to the players heading
                     float heading = Game.Player.Character.Heading - 90;
-
-                    Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
+                    while (Deloreon == null)
+                        Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
                     Deloreon.Rotation = Game.Player.Character.Rotation;
 
                     Deloreon.DirtLevel = 0;
@@ -78,7 +78,6 @@ namespace BTTF_Time_Travel
                     // Set the vehicle mods
                     Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
                     Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                    Deloreon.ToggleMod(VehicleToggleMod.XenonHeadlights, true);
                     Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
                     Deloreon.PrimaryColor = VehicleColor.BrushedAluminium;
                     Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
@@ -89,14 +88,14 @@ namespace BTTF_Time_Travel
                 Model Deloreanmodel = new Model("DMC13");
                 if (Deloreanmodel.IsValid)
                 {
-                    Vehicle Deloreon;
+                    Vehicle Deloreon = null;
 
                     Vector3 position = Game.Player.Character.Position;
 
                     // At 90 degrees to the players heading
                     float heading = Game.Player.Character.Heading - 90;
-
-                    Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
+                    while (Deloreon == null)
+                        Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
                     Deloreon.Rotation = Game.Player.Character.Rotation;
 
                     Deloreon.DirtLevel = 0;
@@ -105,7 +104,6 @@ namespace BTTF_Time_Travel
                     // Set the vehicle mods
                     Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
                     Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                    Deloreon.ToggleMod(VehicleToggleMod.XenonHeadlights, true);
                     Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
                     Deloreon.PrimaryColor = VehicleColor.BrushedAluminium;
                     Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
@@ -116,14 +114,14 @@ namespace BTTF_Time_Travel
                 Model Deloreanmodel = new Model("BTTF");
                 if (Deloreanmodel.IsValid)
                 {
-                    Vehicle Deloreon;
+                    Vehicle Deloreon = null;
 
                     Vector3 position = Game.Player.Character.Position;
 
                     // At 90 degrees to the players heading
                     float heading = Game.Player.Character.Heading - 90;
-
-                    Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
+                    while (Deloreon == null)
+                        Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
                     Deloreon.Rotation = Game.Player.Character.Rotation;
 
                     Deloreon.DirtLevel = 0;
@@ -132,11 +130,15 @@ namespace BTTF_Time_Travel
                     // Set the vehicle mods
                     Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
                     Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                    Deloreon.ToggleMod(VehicleToggleMod.XenonHeadlights, true);
+                    Deloreon.SetMod(VehicleMod.Frame, -1, true);
                     Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
                     TimeTravel.instantDelorean.CreateDeloreanfromcurrentcar(Deloreon, false);
                     Deloreon.PrimaryColor = VehicleColor.BrushedAluminium;
                     Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
+                    if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10 }))
+                    {
+                        Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10, 0 });
+                    }
                 }
             }
             else if (selectedItem.Text == "Spawn Delorean (BTTF 2)")
@@ -144,14 +146,14 @@ namespace BTTF_Time_Travel
                 Model Deloreanmodel = new Model("BTTF2");
                 if (Deloreanmodel.IsValid)
                 {
-                    Vehicle Deloreon;
+                    Vehicle Deloreon = null;
 
                     Vector3 position = Game.Player.Character.Position;
 
                     // At 90 degrees to the players heading
                     float heading = Game.Player.Character.Heading - 90;
-
-                    Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
+                    while (Deloreon == null)
+                        Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
                     Deloreon.Rotation = Game.Player.Character.Rotation;
 
                     Deloreon.DirtLevel = 0;
@@ -160,11 +162,15 @@ namespace BTTF_Time_Travel
                     // Set the vehicle mods
                     Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
                     Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                    Deloreon.ToggleMod(VehicleToggleMod.XenonHeadlights, true);
+                    Deloreon.SetMod(VehicleMod.Frame, -1, true);
                     Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
                     TimeTravel.instantDelorean.CreateDeloreanfromcurrentcar(Deloreon, true);
                     Deloreon.PrimaryColor = VehicleColor.BrushedAluminium;
                     Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
+                    if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10 }))
+                    {
+                        Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10, 0 });
+                    }
                 }
             }
             else if (selectedItem.Text == "Spawn Delorean (BTTF 3)")
@@ -172,14 +178,14 @@ namespace BTTF_Time_Travel
                 Model Deloreanmodel = new Model("BTTF3");
                 if (Deloreanmodel.IsValid)
                 {
-                    Vehicle Deloreon;
+                    Vehicle Deloreon = null;
 
                     Vector3 position = Game.Player.Character.Position;
 
                     // At 90 degrees to the players heading
                     float heading = Game.Player.Character.Heading - 90;
-
-                    Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
+                    while (Deloreon == null)
+                        Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
                     Deloreon.Rotation = Game.Player.Character.Rotation;
 
                     Deloreon.DirtLevel = 0;
@@ -188,11 +194,15 @@ namespace BTTF_Time_Travel
                     // Set the vehicle mods
                     Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
                     Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                    Deloreon.ToggleMod(VehicleToggleMod.XenonHeadlights, true);
+                    Deloreon.SetMod(VehicleMod.Frame, -1, true);
                     Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
                     TimeTravel.instantDelorean.CreateDeloreanfromcurrentcar(Deloreon, false);
                     Deloreon.PrimaryColor = VehicleColor.BrushedAluminium;
                     Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
+                    if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10 }))
+                    {
+                        Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10, 0 });
+                    }
                 }
             }
             else if (selectedItem.Text == "Spawn Delorean (BTTF 3 railroad)")
@@ -200,14 +210,15 @@ namespace BTTF_Time_Travel
                 Model Deloreanmodel = new Model("BTTF3rr");
                 if (Deloreanmodel.IsValid)
                 {
-                    Vehicle Deloreon;
+                    Vehicle Deloreon = null;
 
                     Vector3 position = Game.Player.Character.Position;
 
                     // At 90 degrees to the players heading
                     float heading = Game.Player.Character.Heading - 90;
+                    while (Deloreon == null)
 
-                    Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
+                        Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
                     Deloreon.Rotation = Game.Player.Character.Rotation;
 
                     Deloreon.DirtLevel = 0;
@@ -216,11 +227,15 @@ namespace BTTF_Time_Travel
                     // Set the vehicle mods
                     Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
                     Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                    Deloreon.ToggleMod(VehicleToggleMod.XenonHeadlights, true);
+                    Deloreon.SetMod(VehicleMod.Frame, -1, true);
                     Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
                     TimeTravel.instantDelorean.CreateDeloreanfromcurrentcar(Deloreon, false);
                     Deloreon.PrimaryColor = VehicleColor.BrushedAluminium;
                     Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
+                    if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10 }))
+                    {
+                        Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { TimeTravel.instantDelorean.Deloreanlist[index].Deloreon, 10, 0 });
+                    }
                 }
             }
             else if (selectedItem.Text == "Turn current car into a Time Machine")

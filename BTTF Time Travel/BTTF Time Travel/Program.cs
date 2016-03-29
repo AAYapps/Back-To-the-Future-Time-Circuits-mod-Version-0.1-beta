@@ -48,8 +48,15 @@ namespace BTTF_Time_Travel
             }
         }
 
-        System.Speech.Synthesis.SpeechSynthesizer Timeteller = new System.Speech.Synthesis.SpeechSynthesizer();
+        void effect(string root, string effect)
+        {
+            Function.Call(Hash._0xDD19FA1C6D657305, new InputArgument[] { Game.Player.Character.Position.X, Game.Player.Character.Position.Y, Game.Player.Character.Position.Z, 10 });
+            Function.Call(Hash._0xB80D8756B4668AB6, new InputArgument[] { root });
+            Function.Call(Hash._0x6C38AF3693A69A91, new InputArgument[] { root });
+            Function.Call(Hash._0x0D53A3B8DA0809D2, new InputArgument[] { effect, Game.Player.Character, 0.0, 3.0, 0.5, 0.0, 0.0, 0.0, 3.0, 0, 0, 0 });
+        }
 
+        System.Speech.Synthesis.SpeechSynthesizer Timeteller = new System.Speech.Synthesis.SpeechSynthesizer();
         private void onKeyDown(object sender, KeyEventArgs e)
         {
             if (Displayadjustment)
@@ -79,14 +86,6 @@ namespace BTTF_Time_Travel
             }
             else
             {
-                if (e.KeyCode == Keys.U)
-                {
-                    Function.Call(Hash.SET_VEHICLE_EXTRA, 1, 1);
-                }
-                else if (e.KeyCode == Keys.J)
-                {
-                    Function.Call(Hash.SET_VEHICLE_EXTRA, 1, 0);
-                }
                 Delorean_class.keystring = e.KeyCode.ToString();
             }
         }
@@ -109,8 +108,18 @@ namespace BTTF_Time_Travel
         public static bool Displayadjustment = false;
 
         public static bool menu = false;
+        bool effectcommand = false;
+        bool effectcommand2 = false;
+        string command = "";
+        string command1 = "";
+        string command2 = "";
         private void onKeyUp(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.F8)
+            {
+                effectcommand = !effectcommand;
+                Game.Player.CanControlCharacter = !Game.Player.CanControlCharacter;
+            }
             if (e.KeyCode == Keys.F5)
             {
                 menu = true;
@@ -121,7 +130,225 @@ namespace BTTF_Time_Travel
                 }
             }
 
-            if (menu)
+            if (effectcommand)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (!effectcommand2)
+                    {
+                        command1 = command;
+                        command = "";
+                    }
+                    else
+                    {
+                        command2 = command;
+                        command = "";
+                    }
+                }
+                else if (e.KeyCode == Keys.F9)
+                {
+
+                }
+                else if (e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + e.KeyCode.ToString();
+                    }
+                    else
+                    {
+                        command = command + e.KeyCode.ToString().ToLower();
+                    }
+                }
+                else if (e.KeyCode == Keys.Oem5)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "|";
+                    }
+                    else
+                    {
+                        command = command + "\\";
+                    }
+                }
+                else if (e.KeyCode == Keys.OemPeriod)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + ">";
+                    }
+                    else
+                    {
+                        command = command + ".";
+                    }
+                }
+                else if (e.KeyCode == Keys.Oemcomma)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "<";
+                    }
+                    else
+                    {
+                        command = command + ",";
+                    }
+                }
+                else if (e.KeyCode == Keys.OemBackslash)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "?";
+                    }
+                    else
+                    {
+                        command = command + "/";
+                    }
+                }
+                else if (e.KeyCode == Keys.D0)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + ")";
+                    }
+                    else
+                    {
+                        command = command + "0";
+                    }
+                }
+                else if (e.KeyCode == Keys.D1)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "!";
+                    }
+                    else
+                    {
+                        command = command + "1";
+                    }
+                }
+                else if (e.KeyCode == Keys.D2)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "@";
+                    }
+                    else
+                    {
+                        command = command + "2";
+                    }
+                }
+                else if (e.KeyCode == Keys.D3)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "#";
+                    }
+                    else
+                    {
+                        command = command + "3";
+                    }
+                }
+                else if (e.KeyCode == Keys.D4)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "$";
+                    }
+                    else
+                    {
+                        command = command + "4";
+                    }
+                }
+                else if (e.KeyCode == Keys.D5)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "%";
+                    }
+                    else
+                    {
+                        command = command + "5";
+                    }
+                }
+                else if (e.KeyCode == Keys.D6)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "^";
+                    }
+                    else
+                    {
+                        command = command + "6";
+                    }
+                }
+                else if (e.KeyCode == Keys.D7)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "&";
+                    }
+                    else
+                    {
+                        command = command + "7";
+                    }
+                }
+                else if (e.KeyCode == Keys.D8)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "*";
+                    }
+                    else
+                    {
+                        command = command + "8";
+                    }
+                }
+                else if (e.KeyCode == Keys.D9)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "(";
+                    }
+                    else
+                    {
+                        command = command + "9";
+                    }
+                }
+                else if (e.KeyCode == Keys.OemMinus)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "_";
+                    }
+                    else
+                    {
+                        command = command + "-";
+                    }
+                }
+                else if (e.KeyCode == Keys.Oemplus)
+                {
+                    if (e.Shift)
+                    {
+                        command = command + "+";
+                    }
+                    else
+                    {
+                        command = command + "=";
+                    }
+                }
+                else if (e.KeyCode == Keys.Space)
+                {
+                    command = command + " ";
+                }
+                else if (e.KeyCode == Keys.Back)
+                {
+                    if (command.Length > 0)
+                    {
+                        command = command.Substring(0, command.Length - 1);
+                    }
+                }
+            }
+            else if (menu)
             {
                 if (e.KeyCode == Keys.Left)
                 {
@@ -298,13 +525,152 @@ namespace BTTF_Time_Travel
         }
         Constanttimerclass sounddelay = new Constanttimerclass();
 
-
+        int preloadtime = 0;
+        bool preload = false;
         public void onTick(object sender, EventArgs e)
         {
             try
             {
+                if (effectcommand)
+                {
+                    UI.ShowSubtitle("Command effect: " + command);
+                }
                 TTTF.OnTick();
                 instantDelorean.Check(sender, e);
+
+                if (!preload)
+                {
+                    if (DateTime.Now.Millisecond % 60 > 30 && DateTime.Now.Millisecond % 60 <= 60)
+                    {
+                        UI.ShowSubtitle("preload " + preloadtime);
+                        if (preloadtime == 50)
+                        {
+                            while (!preload)
+                            {
+                                Vehicle dmc12 = null;
+                                while (dmc12 == null)
+                                {
+                                    try
+                                    {
+                                        dmc12 = World.CreateVehicle(new Model("dmc12"), new Vector3(0, 0, 0));
+                                        break;
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                                dmc12.Delete();
+                                Vehicle dmc13 = null;
+                                while (dmc13 == null)
+                                {
+                                    try
+                                    {
+                                        dmc13 = World.CreateVehicle(new Model("dmc13"), new Vector3(0, 0, 0));
+                                        break;
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                                dmc13.Delete();
+                                Vehicle gmcvan = null;
+                                while (gmcvan == null)
+                                {
+                                    try
+                                    {
+                                        gmcvan = World.CreateVehicle(new Model("gmcvan"), new Vector3(0, 0, 0));
+                                        break;
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                                gmcvan.Delete();
+                                Vehicle bttf3rr = null;
+                                while (bttf3rr == null)
+                                {
+                                    try
+                                    {
+                                        bttf3rr = World.CreateVehicle(new Model("bttf3rr"), new Vector3(0, 0, 0));
+                                        break;
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                                bttf3rr.Delete();
+                                Vehicle bttf3 = null;
+                                while (bttf3 == null)
+                                {
+                                    try
+                                    {
+                                        bttf3 = World.CreateVehicle(new Model("bttf3"), new Vector3(0, 0, 0));
+                                        break;
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                                bttf3.Delete();
+                                Vehicle bttf = null;
+                                while (bttf == null)
+                                {
+                                    try
+                                    {
+                                        bttf = World.CreateVehicle(new Model("bttf"), new Vector3(0, 0, 0));
+                                        break;
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                                bttf.Delete();
+                                Vehicle bttf2 = null;
+                                while (bttf2 == null)
+                                {
+                                    try
+                                    {
+                                        bttf2 = World.CreateVehicle(new Model("bttf2"), new Vector3(0, 0, 0));
+                                        break;
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                                bttf2.Delete();
+                                Vehicle bttf2f = null;
+                                while (bttf2f == null)
+                                {
+                                    try
+                                    {
+                                        bttf2f = World.CreateVehicle(new Model("bttf2f"), new Vector3(0, 0, 0));
+                                        break;
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                                bttf2f.Delete();
+                                preload = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (preloadtime < 50)
+                            preloadtime++;
+                    }
+                }
+                
+
                 if (Displayadjustment)
                 {
                     UIText debug2 = new UIText("Display Adjustment. Use arrow keys to move display, and enter to Apply change.", new Point(200, 100), (float)0.6);
@@ -349,7 +715,21 @@ namespace BTTF_Time_Travel
             }
             catch(Exception d)
             {
-                UI.ShowSubtitle("Error: " + d.Message);
+                if (instantDelorean.Deloreanlist.Count < 1)
+                {
+                    try
+                    {
+                        instantDelorean.CreateDeloreon();
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                else
+                {
+                    UI.ShowSubtitle("Error: " + d.Message);
+                }
             }
         }
 
